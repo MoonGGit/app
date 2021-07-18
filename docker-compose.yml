@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+    nginx:
+        restart: always
+        build:
+            dockerfile: dockerfile
+            context: ./nginx
+        ports:
+            - ${nginx_port1}:${nginx_port2}
+        env_file: 
+            - .env
+        volumes: 
+            - type: volume
+              source: myapp_socket
+              target: /tmp/myapp_socket
+              read_only: true
+        depends_on: 
+            - server_myapp
+
+    server_myapp:
+        restart: always
+        build:
+            dockerfile: dockerfile
+            context: ./myapp
+        env_file: 
+            - .env
+        volumes: 
+            - ./myapp:/app
+            - myapp_socket:/tmp/myapp_socket
+        depends_on: 
+            - db
+    
+    # server_blog:
+
+    # server_privateserver:
+
+    db:
+        restart: always
+        image: mysql:8.0
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: '${mysql_password}'
+
+volumes:
+    myapp_socket:

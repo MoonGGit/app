@@ -1,0 +1,12 @@
+FROM python:3.7-alpine
+
+COPY ./server/env/requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
+WORKDIR /app/server
+RUN mkdir -p /tmp/myapp_socket/
+CMD ["gunicorn", "--workers", "3", \
+    "--bind", "unix:/tmp/myapp_socket/myapp.sock", \
+    "wsgi:app", \
+    "--worker-tmp-dir", "/tmp/myapp_socket/", \
+    "--reload"]
