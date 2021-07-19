@@ -11,10 +11,7 @@ services:
         env_file: 
             - .env
         volumes: 
-            - type: volume
-              source: myapp_socket
-              target: /tmp/myapp_socket
-              read_only: true
+            - myapp_socket:/tmp/myapp_socket:ro     # docker volumes
         depends_on: 
             - server_myapp
 
@@ -26,8 +23,10 @@ services:
         env_file: 
             - .env
         volumes: 
-            - ./myapp:/app
-            - myapp_socket:/tmp/myapp_socket
+            - ./myapp/server:/app/server
+            - /app/server/.env      # exclude
+            - ./myapp/client/dist:/app/client/dist
+            - myapp_socket:/tmp/myapp_socket        # docker volumes
         depends_on: 
             - db
     
