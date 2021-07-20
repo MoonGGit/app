@@ -1,0 +1,18 @@
+@import './testImport.scss';
+
+span {
+	color: red;
+	font-size: $test;
+}
+
+.a {
+	background-color: blue;
+}
+
+.b {
+	background-color: yellow;
+}
+
+.c {
+	background-color: purple;
+}
