@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { TiStar, TiAdjustBrightness, TiAnchor } from 'react-icons/ti';
 import bs from './scss/init.scss';
 
@@ -38,7 +38,7 @@ const ClickEffect = () => {
 	const [garbageCollection, setGarbageCollection] = useState<JSX.Element[]>([]);
 	// todo-update : 유지 이펙트의 garbageCollection 비우기(참조없애기)
 
-	const setEffect = (event: MouseEvent) => {
+	const setEffect = useCallback((event: MouseEvent) => {
 		let x = event.clientX;
 		let y = event.clientY;
 
@@ -50,7 +50,7 @@ const ClickEffect = () => {
 
 			return [...p, EffectElement];
 		});
-	};
+	}, []);
 
 	useEffect(() => {
 		document.body.addEventListener('click', setEffect);

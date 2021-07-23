@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import bs from './scss/init.scss';
 import cn from 'classnames';
 import { BiMenu } from 'react-icons/bi';
 
 const HeaderNavBar = () => {
 	const [navBarToggle, setNavBarToggle] = useState(false);
-	const onClickNavBarToggle = () => {
+	const onClickNavBarToggle = useCallback(() => {
 		setNavBarToggle(!navBarToggle);
-	};
+	}, []);
 
 	return (
 		<nav className={cn(bs['navbar-expand-md'], bs['navbar-light'])}>

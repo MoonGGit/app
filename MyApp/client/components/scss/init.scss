@@ -3,6 +3,11 @@
 @import 'utilities';
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
 
+* {
+	// 드래그 방지
+	user-select: none;
+}
+
 a {
 	text-decoration: none;
 	color: black;
