@@ -1,0 +1,70 @@
+$utilities: () !default;
+$utilities: map-merge(
+	(
+		'button-padding': (
+			responsive: true,
+			property: padding,
+			class: bp,
+			values: (
+				1: 10px,
+				2: 15px,
+				3: 20px,
+				4: 25px,
+				5: 30px,
+			),
+		),
+		'opacity': (
+			responsive: true,
+			property: opacity,
+			class: op,
+			values: $opacities,
+		),
+		// overide
+		'position':
+			(
+				responsive: true,
+				property: position,
+				values: static relative absolute fixed sticky,
+			),
+		'xr': (
+			responsive: true,
+			property: right,
+			class: xr,
+			values: (
+				1: 5px,
+				2: 10px,
+				3: 15px,
+				4: 20px,
+			),
+		),
+		// overide
+		'visibility':
+			(
+				responsive: true,
+				property: visibility,
+				class: v,
+				values: (
+					visible: visible,
+					invisible: hidden,
+				),
+			),
+		'extra-font-size': (
+			responsive: true,
+			property: font-size,
+			class: efs,
+			values: (
+				1: 10px,
+				2: 12px,
+				3: 14px,
+				4: 16px,
+				5: 20px,
+				6: 25px,
+				7: 30px,
+				8: 35px,
+				9: 40px,
+				10: 50px,
+			),
+		),
+	),
+	$utilities
+);

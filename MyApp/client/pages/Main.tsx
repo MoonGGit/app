@@ -1,15 +1,11 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';
-
-import a from './test.scss';
+import { Link } from 'react-router-dom';
 
 export default function Main() {
 	return (
-		<div className={`${a.a}`}>
-			Hello world, React typescript test yeah!
-			<span className={`${a.c}`}>divvvv tag</span>
-			<Button>boot strap test ttt</Button>
-			<Button>boot strap test ttt</Button>
+		<div>
+			<div style={{ height: '400px' }} />
+			<Link to="/dots-converter">Go Dots_Converter</Link>
+			<div style={{ height: '2000px' }} />
 		</div>
 	);
 }

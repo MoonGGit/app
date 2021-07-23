@@ -22,7 +22,7 @@ module.exports = {
 				use: ['babel-loader', 'ts-loader'],
 			},
 			{
-				test: /\.s[ac]ss$/,
+				test: /\.(sa|sc|c)ss$/,
 				use: [
 					MiniCssExtractPlugin.loader,
 					'@teamsupercell/typings-for-css-modules-loader',
@@ -32,24 +32,12 @@ module.exports = {
 							sourceMap: true,
 							modules: true,
 							/* 임포트하여 오브젝트로서 사용가능 */
+							url: true,
 						},
 					},
 					'sass-loader',
 				],
 				exclude: /node_modules/,
-			},
-			{
-				test: /\.css$/,
-				use: [
-					MiniCssExtractPlugin.loader,
-					'@teamsupercell/typings-for-css-modules-loader',
-					{
-						loader: 'css-loader',
-						options: {
-							sourceMap: true,
-						},
-					},
-				],
 			},
 		],
 	},
