@@ -1,9 +1,19 @@
 import cn from 'classnames';
 import bs from './scss/init.scss';
+import ClickCounter from './ClickCounter';
 
 const Footer = () => {
 	return (
-		<footer className={cn(bs['d-flex'], bs['align-items-end'], bs['justify-content-center'], bs['footer'])}>
+		<footer
+			className={cn(
+				bs['d-flex'],
+				bs['align-items-end'],
+				bs['justify-content-center'],
+				bs['footer'],
+				bs['position-relative'],
+			)}
+		>
+			<ClickCounter className={cn(bs['position-absolute'], bs['yt-2'], bs['xl-2'])} />
 			<div
 				className={cn(
 					bs['d-flex'],

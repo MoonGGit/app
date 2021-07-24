@@ -6,21 +6,24 @@ import Main from '../pages/Main';
 import Dots_converter from '../pages/Dots_converter';
 import FixedTopButton from '../components/FixedTopButton';
 import ClickEffect from '../components/ClickEffect';
+import AppProvider from '../context/AppProvider';
 
 export default function App() {
 	return (
 		<>
-			<BrowserRouter>
-				<Header />
-				<Switch>
-					<Route exact path="/" component={Main} />
-					<Route exact path="/dots-converter" component={Dots_converter} />
-					<Redirect path="*" to="/" />
-				</Switch>
-				<Footer />
-			</BrowserRouter>
-			<FixedTopButton />
-			<ClickEffect />
+			<AppProvider>
+				<BrowserRouter>
+					<Header />
+					<Switch>
+						<Route exact path="/" component={Main} />
+						<Route exact path="/dots-converter" component={Dots_converter} />
+						<Redirect path="*" to="/" />
+					</Switch>
+					<Footer />
+				</BrowserRouter>
+				<FixedTopButton />
+				<ClickEffect />
+			</AppProvider>
 		</>
 	);
 }

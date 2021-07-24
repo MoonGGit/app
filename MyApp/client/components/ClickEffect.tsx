@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useContext } from 'react';
 import { TiStar, TiAdjustBrightness, TiAnchor } from 'react-icons/ti';
 import bs from './scss/init.scss';
+import { ClickCounterContext } from '../context/ClickCounterContext';
 
 const effectList = [TiStar, TiAdjustBrightness, TiAnchor];
 
@@ -8,11 +9,13 @@ const effectList = [TiStar, TiAdjustBrightness, TiAnchor];
 const Effect = ({ x, y }: { x: number; y: number }) => {
 	const [endOfEffect, setEndOfEffect] = useState(false);
 	const effectRef = useRef<HTMLElement>(null);
+	const { dispatch: contextClickCounterDispatch } = useContext(ClickCounterContext)!;
 
 	const randomIndex = Math.floor(Math.random() * 3);
 	const RandomEffect = effectList[randomIndex];
 
 	useEffect(() => {
+		contextClickCounterDispatch({ type: 'IMPLEMENT' });
 		const target = effectRef?.current!;
 		const toX = x - target.offsetWidth / 2;
 		const toY = y - target.offsetHeight / 2;
