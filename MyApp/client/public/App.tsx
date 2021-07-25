@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Main from '../pages/Main';
-import Dots_converter from '../pages/Dots_converter';
+import DotsConverter from '../pages/DotsConverter';
 import FixedTopButton from '../components/FixedTopButton';
 import ClickEffect from '../components/ClickEffect';
 import AppProvider from '../context/AppProvider';
@@ -16,7 +16,7 @@ export default function App() {
 					<Header />
 					<Switch>
 						<Route exact path="/" component={Main} />
-						<Route exact path="/dots-converter" component={Dots_converter} />
+						<Route exact path="/dots-converter" component={DotsConverter} />
 						<Redirect path="*" to="/" />
 					</Switch>
 					<Footer />

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback, useContext } from 'react';
+import { useEffect, useRef, useState, useCallback, useContext, useMemo } from 'react';
 import { TiStar, TiAdjustBrightness, TiAnchor } from 'react-icons/ti';
 import bs from './scss/init.scss';
 import { ClickCounterContext } from '../context/ClickCounterContext';
@@ -11,8 +11,10 @@ const Effect = ({ x, y }: { x: number; y: number }) => {
 	const effectRef = useRef<HTMLElement>(null);
 	const { dispatch: contextClickCounterDispatch } = useContext(ClickCounterContext)!;
 
-	const randomIndex = Math.floor(Math.random() * 3);
-	const RandomEffect = effectList[randomIndex];
+	const RandomEffect = useMemo(() => {
+		const randomIndex = Math.floor(Math.random() * 3);
+		return effectList[randomIndex];
+	}, []);
 
 	useEffect(() => {
 		contextClickCounterDispatch({ type: 'IMPLEMENT' });
@@ -25,7 +27,7 @@ const Effect = ({ x, y }: { x: number; y: number }) => {
 		console.log('꾹');
 		setTimeout(() => {
 			setEndOfEffect(true);
-		}, 700);
+		}, 1500);
 	}, []);
 
 	return !endOfEffect ? (

@@ -19,6 +19,7 @@ const Header = () => {
 				bs['position-fixed'],
 				bs['w-100'],
 				bs['align-items-center'],
+				bs['z-999'],
 			)}
 		>
 			<Link to="/" className={cn(bs['me-auto'])}>

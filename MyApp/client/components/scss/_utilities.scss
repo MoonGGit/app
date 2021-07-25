@@ -87,6 +87,16 @@ $utilities: map-merge(
 				10: 50px,
 			),
 		),
+		'z-index': (
+			responsive: true,
+			property: z-index,
+			class: z,
+			values: (
+				-1: -1,
+				0: 0,
+				999: 999,
+			),
+		),
 	),
 	$utilities
 );
