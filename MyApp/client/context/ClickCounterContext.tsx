@@ -1,8 +1,8 @@
-import { useReducer, createContext, useMemo } from 'react';
+import { useReducer, createContext, Dispatch, useMemo } from 'react';
 
 // 타입 지정
 interface Action {
-	type: 'IMPLEMENT' | null;
+	type: 'IMPLEMENT' | 'INIT' | null;
 	value?: number;
 }
 
@@ -22,18 +22,25 @@ const reducer = (state: State, action: Action) => {
 				...state,
 				...action,
 			};
+		case 'INIT':
+			return {
+				...state,
+				...action,
+			};
 		default:
 			throw new Error('Unhandled action');
 	}
 };
 
 // 컨텍스트 생성
-// consumer는 useContext로 사용
-const ClickCounterContext = createContext<{ state: State; dispatch: React.Dispatch<Action> } | null>(null);
+// consumer의 state는 useContext로 사용
+// dispatch는 컨텍스트 대신 단순 변수로 사용, dispatch가 포함된 컴포넌트까지 한번 더 재렌더링 되어버리기 때문;;
+const ClickCounterContext = createContext<{ state: State } | null>(null);
+let clickCounterDispatch: React.Dispatch<Action>;
 
 /* state변경 시, 재렌더링 대상
-	- Provider컴포넌트 자신 
-	- Provider에서 제공하는 state와 dispatch를 사용하는 컴포넌트와 그 하위 컴포넌트 모두 
+	- Provider컴포넌트 자신
+	- Provider에서 제공하는 값을 사용하는 컴포넌트와 그 하위 컴포넌트 모두 
  */
 const ClickCounterProvider = ({ children }: { children: React.ReactNode }) => {
 	// 초기값
@@ -41,10 +48,12 @@ const ClickCounterProvider = ({ children }: { children: React.ReactNode }) => {
 		return { type: null, value: 0, error: false };
 	}, []);
 
-	// 디스패치 생성, 컴포넌트 안에서만 사용가능
+	// 디스패치 생성, 할당
+	// useReducer는 컴포넌트 안에서만 사용가능
 	const [state, dispatch] = useReducer(reducer, initState);
+	clickCounterDispatch = dispatch;
 
-	return <ClickCounterContext.Provider value={{ state, dispatch }}>{children}</ClickCounterContext.Provider>;
+	return <ClickCounterContext.Provider value={{ state }}>{children}</ClickCounterContext.Provider>;
 };
 
-export { ClickCounterProvider, ClickCounterContext };
+export { ClickCounterProvider, ClickCounterContext, clickCounterDispatch };

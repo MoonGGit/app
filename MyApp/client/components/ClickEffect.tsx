@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState, useCallback, useContext, useMemo } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { TiStar, TiAdjustBrightness, TiAnchor } from 'react-icons/ti';
 import bs from './scss/init.scss';
-import { ClickCounterContext } from '../context/ClickCounterContext';
+import { clickCounterDispatch } from '../context/ClickCounterContext';
 
 const effectList = [TiStar, TiAdjustBrightness, TiAnchor];
 
@@ -9,7 +9,6 @@ const effectList = [TiStar, TiAdjustBrightness, TiAnchor];
 const Effect = ({ x, y }: { x: number; y: number }) => {
 	const [endOfEffect, setEndOfEffect] = useState(false);
 	const effectRef = useRef<HTMLElement>(null);
-	const { dispatch: contextClickCounterDispatch } = useContext(ClickCounterContext)!;
 
 	const RandomEffect = useMemo(() => {
 		const randomIndex = Math.floor(Math.random() * 3);
@@ -17,7 +16,7 @@ const Effect = ({ x, y }: { x: number; y: number }) => {
 	}, []);
 
 	useEffect(() => {
-		contextClickCounterDispatch({ type: 'IMPLEMENT' });
+		clickCounterDispatch({ type: 'IMPLEMENT' });
 		const target = effectRef?.current!;
 		const toX = x - target.offsetWidth / 2;
 		const toY = y - target.offsetHeight / 2;
@@ -41,7 +40,7 @@ const Effect = ({ x, y }: { x: number; y: number }) => {
 
 const ClickEffect = () => {
 	const [garbageCollection, setGarbageCollection] = useState<JSX.Element[]>([]);
-	// todo-update : 유지 이펙트의 garbageCollection 비우기(참조없애기)
+	// todo-update : 유지 이펙트의 garbageCollection 비우기(참조없애기) 추가
 
 	const setEffect = useCallback((event: MouseEvent) => {
 		let x = event.clientX;

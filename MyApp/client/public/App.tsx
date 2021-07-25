@@ -7,8 +7,11 @@ import DotsConverter from '../pages/DotsConverter';
 import FixedTopButton from '../components/FixedTopButton';
 import ClickEffect from '../components/ClickEffect';
 import AppProvider from '../context/AppProvider';
+import useInitPage from '../hooks/useInitPage';
 
 export default function App() {
+	useInitPage();
+
 	return (
 		<>
 			<AppProvider>

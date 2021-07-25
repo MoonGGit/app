@@ -16,7 +16,7 @@ const PageCard = (props: CardList) => {
 	const [image, setImage] = useState();
 
 	useEffect(() => {
-		import('../assets/images/' + props.imagePath).then(v => setImage(v.default)).catch();
+		import('../assets/images/' + props.imagePath).then(res => setImage(res.default)).catch();
 	}, []);
 	// 경로의 부분 명시가 필요함
 	// 상단에서 소스를 import할 경우에는 첫 글자가 capital이어야함
