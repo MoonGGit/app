@@ -16,7 +16,7 @@ const Effect = ({ x, y }: { x: number; y: number }) => {
 	}, []);
 
 	useEffect(() => {
-		clickCounterDispatch({ type: 'IMPLEMENT' });
+		clickCounterDispatch({ type: 'INCREMENT' });
 		const target = effectRef?.current!;
 		const toX = x - target.offsetWidth / 2;
 		const toY = y - target.offsetHeight / 2;

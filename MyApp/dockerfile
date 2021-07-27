@@ -3,6 +3,12 @@ FROM python:3.7-alpine
 COPY ./server/.env/requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
+RUN apk add --no-cache gcc musl-dev libffi-dev openssl-dev python3-dev
+RUN pip install --no-cache-dir cryptography==2.1.4
+RUN apk del gcc musl-dev libffi-dev openssl-dev python3-dev
+
+# todo : 쿼리 실행 추가 
+
 WORKDIR /app/server
 RUN mkdir -p /tmp/myapp_socket/
 CMD ["gunicorn", "--workers", "3", \

@@ -54,8 +54,8 @@ module.exports = {
 	},
 
 	output: {
-		path: path.join(__dirname, '/dist'),
-		filename: 'bundle.js',
+		path: path.join(__dirname, '/dist/static/'),
+		filename: '[name].[contenthash].js',
 	},
 
 	devServer: {
@@ -64,6 +64,9 @@ module.exports = {
 		port: 3030,
 		hot: true,
 		publicPath: '/',
+		writeToDisk: true,
+		contentBase: path.join(__dirname, '/dist/'),
+		// output의 path보다 아래에 있어서 설정
 	},
 
 	plugins: [
@@ -72,6 +75,8 @@ module.exports = {
 		}),
 		new HtmlWebpackPlugin({
 			template: './public/index.html',
+			filename: '../index.html',
+			// output의 path 기준으로 파일이 생성됨
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new MiniCssExtractPlugin({

@@ -127,12 +127,12 @@ ul {
 }
 
 .pageCard {
-	max-height: 270px;
+	max-height: 260px;
 	& > div > div:first-child {
 		border-right: 1px solid rgba(0, 0, 0, 0.125);
 	}
 	img {
-		max-height: 268px;
+		max-height: 258px;
 		&:hover {
 			transform: scale(1.4);
 			transition: transform 1s ease-in-out;

@@ -21,6 +21,7 @@
 메모
 npx webpack server --mode development
 npx json-server ./testdata.json --port 4000
+extract-text-webpack-plugin@next
 
 todo-update
 todo-check

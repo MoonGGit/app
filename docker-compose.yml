@@ -27,8 +27,11 @@ services:
             - /app/server/.env      # exclude
             - ./myapp/client/dist:/app/client/dist
             - myapp_socket:/tmp/myapp_socket        # docker volumes
+        links:
+            - db:myapp
         depends_on: 
             - db
+
     
     # server_blog:
 
@@ -41,6 +44,8 @@ services:
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: '${mysql_password}'
+        ports: 
+            - ${db_port1}:${db_port2}
 
 volumes:
     myapp_socket:

@@ -2,7 +2,7 @@ import { useReducer, createContext, Dispatch, useMemo } from 'react';
 
 // 타입 지정
 interface Action {
-	type: 'IMPLEMENT' | 'INIT' | null;
+	type: 'INCREMENT' | 'INIT' | null;
 	value?: number;
 }
 
@@ -15,7 +15,7 @@ interface State extends Action {
 // 리듀서
 const reducer = (state: State, action: Action) => {
 	switch (action.type) {
-		case 'IMPLEMENT':
+		case 'INCREMENT':
 			action.value ? action.value++ : state.value!++;
 			// useReducer의 reducer 리턴타입이 있어서 무조건 리턴시켜줘야함
 			return {
