@@ -3,15 +3,20 @@ import axios from 'axios';
 
 const useInitPage = () => {
 	axios
-		.get('http://localhost:4000/accessed_ip')
+		.get('/init')
 		.then(res => {
+			console.log(res);
+		})
+		.catch(err => console.log(err));
+
+	/* .then(res => {
 			const clickCounts = res.data.reduce(
 				(counts: number, cur: { click_counts: string }) => counts + parseInt(cur.click_counts),
 				0,
 			);
 			clickCounterDispatch({ type: 'INIT', value: clickCounts });
 		})
-		.catch(err => console.log(err));
+		.catch(err => console.log(err)); */
 };
 
 export default useInitPage;
