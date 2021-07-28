@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { TiStar, TiAdjustBrightness, TiAnchor } from 'react-icons/ti';
 import bs from './scss/init.scss';
 import { clickCounterDispatch } from '../context/ClickCounterContext';
+import axios from 'axios';
 
 const effectList = [TiStar, TiAdjustBrightness, TiAnchor];
 
@@ -17,6 +18,8 @@ const Effect = ({ x, y }: { x: number; y: number }) => {
 
 	useEffect(() => {
 		clickCounterDispatch({ type: 'INCREMENT' });
+		axios.put('/click');
+
 		const target = effectRef?.current!;
 		const toX = x - target.offsetWidth / 2;
 		const toY = y - target.offsetHeight / 2;

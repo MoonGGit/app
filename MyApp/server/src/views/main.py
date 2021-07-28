@@ -15,14 +15,14 @@ def index(path):
     return render_template('index.html')
 
 
-@main.route('/init')
-# 마우스 클릭 수 불러오기, 접속ip 업데이트
+@main.route('/init', methods=['GET'])
 def init():
-    return jsonify({'test': 'data'})
+    click_counts = get_click_counts()
+    return jsonify({'click_counts': click_counts})
 
 
-@main.route('/click')
-# 마우스 업데이트, 소켓으로 실시간 수정
+@main.route('/click', methods=['PUT'])
 def click():
-    pass
-    # return jsonify({'click': 'test'})
+    ip = request.headers.getlist("X-Real-IP")[0]
+    put_click_counts(ip)
+    return ('', 204)  # No content
