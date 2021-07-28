@@ -3,8 +3,10 @@ import { TiStar, TiAdjustBrightness, TiAnchor } from 'react-icons/ti';
 import bs from './scss/init.scss';
 import { clickCounterDispatch } from '../context/ClickCounterContext';
 import axios from 'axios';
+import io from 'socket.io-client';
 
 const effectList = [TiStar, TiAdjustBrightness, TiAnchor];
+const socket = io('/room_click');
 
 // todo-update : effect와 class를 파라미터로 받기
 const Effect = ({ x, y }: { x: number; y: number }) => {
@@ -19,6 +21,7 @@ const Effect = ({ x, y }: { x: number; y: number }) => {
 	useEffect(() => {
 		clickCounterDispatch({ type: 'INCREMENT' });
 		axios.put('/click');
+		socket.emit('click');
 
 		const target = effectRef?.current!;
 		const toX = x - target.offsetWidth / 2;
