@@ -13,10 +13,10 @@ class Accessed_Ip(Base):
     banned_date = Column(DateTime)
     click_counts = Column(Integer)
 
-    def __init__(self, ip, visits, accessed_date, banned, banned_date, click_counts):
+    def __init__(self, ip, visits, recent_accessed_date, banned, banned_date, click_counts):
         self.ip = ip
         self.visits = visits
-        self.accessed_date = accessed_date
+        self.recent_accessed_date = recent_accessed_date
         self.banned = banned
         self.banned_date = banned_date
         self.click_counts = click_counts

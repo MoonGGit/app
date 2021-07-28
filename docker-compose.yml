@@ -28,7 +28,7 @@ services:
             - ./myapp/client/dist:/app/client/dist
             - myapp_socket:/tmp/myapp_socket        # docker volumes
         links:
-            - db:myapp
+            - db:myapp_db
         depends_on: 
             - db
 
@@ -46,6 +46,7 @@ services:
             MYSQL_ROOT_PASSWORD: '${mysql_password}'
         ports: 
             - ${db_port1}:${db_port2}
-
+        cap_add: 
+            - SYS_NICE
 volumes:
     myapp_socket:

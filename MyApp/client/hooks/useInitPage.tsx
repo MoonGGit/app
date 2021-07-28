@@ -5,9 +5,9 @@ const useInitPage = () => {
 	axios
 		.get('/init')
 		.then(res => {
-			console.log(res);
+			console.log('test data yeah : ', res.data);
 		})
-		.catch(err => console.log(err));
+		.catch(err => console.log('err :', err));
 
 	/* .then(res => {
 			const clickCounts = res.data.reduce(
