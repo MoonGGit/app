@@ -21,7 +21,6 @@ ul {
 @each $cs, $cv in $colors {
 	@each $os, $ov in $opacities {
 		.bg-op-#{$cs}-#{$os} {
-			position: relative;
 			@include bg-op($cv, $ov);
 		}
 	}
