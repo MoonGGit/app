@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import { TiStar, TiAdjustBrightness, TiAnchor } from 'react-icons/ti';
+import { TiStar, TiStarOutline } from 'react-icons/ti';
 import bs from './scss/init.scss';
 import { clickCounterDispatch } from '../context/ClickCounterContext';
 import axios from 'axios';
 import io from 'socket.io-client';
 
-const effectList = [TiStar, TiAdjustBrightness, TiAnchor];
+const effectList = [TiStar, TiStarOutline];
 const socket = io('/room_click');
 
 // todo-update : effect와 class를 파라미터로 받기
@@ -14,7 +14,7 @@ const Effect = ({ x, y }: { x: number; y: number }) => {
 	const effectRef = useRef<HTMLElement>(null);
 
 	const RandomEffect = useMemo(() => {
-		const randomIndex = Math.floor(Math.random() * 3);
+		const randomIndex = Math.floor(Math.random() * effectList.length);
 		return effectList[randomIndex];
 	}, []);
 

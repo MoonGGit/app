@@ -10,7 +10,7 @@
 
 a {
 	text-decoration: none;
-	color: black;
+	color: black !important;
 }
 
 ul {
@@ -21,7 +21,27 @@ ul {
 @each $cs, $cv in $colors {
 	@each $os, $ov in $opacities {
 		.bg-op-#{$cs}-#{$os} {
+			position: relative;
 			@include bg-op($cv, $ov);
+		}
+	}
+}
+
+.header {
+	backdrop-filter: blur(30px);
+}
+
+.headerColor {
+	@include lt-md {
+		*:not(ul a) {
+			transition: color 3s ease;
+			color: white !important;
+		}
+	}
+	@include gt-md {
+		* {
+			transition: color 3s ease;
+			color: white !important;
 		}
 	}
 }
@@ -64,7 +84,7 @@ ul {
 
 .footer {
 	min-height: 75px;
-	background-color: #815f85;
+	background-color: #756f76;
 }
 
 .fixedTopButton {
@@ -112,12 +132,10 @@ ul {
 .clickEffect {
 	@keyframes clickEffect {
 		to {
-			visibility: visible;
 			opacity: 1;
 			transform: scale(1.5);
 		}
 	}
-	visibility: hidden;
 	opacity: 0;
 	position: fixed;
 	pointer-events: none;
@@ -147,10 +165,177 @@ ul {
 }
 
 .infoBox {
-	height: 100px;
+	height: 200px;
+	border: 1px solid #e3e3e3;
+	border-radius: 3px;
 }
 
 .divisionLine {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 	filter: drop-shadow(0px 1px 2px black);
+}
+
+.moon {
+	@keyframes show {
+		to {
+			opacity: 1;
+		}
+	}
+	opacity: 0;
+	transform: rotate(27deg);
+	animation-delay: 1s;
+	animation-name: show;
+	animation-duration: 2.5s;
+	animation-timing-function: ease;
+	animation-fill-mode: both;
+	@include gt-md {
+		width: 100px;
+	}
+	@include lt-md {
+		width: 70px;
+	}
+}
+
+.mainBackground {
+	// 메인 배경
+	@keyframes backgroundScale {
+		0%,
+		100% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(1.1);
+		}
+	}
+	background: radial-gradient(ellipse at left, #171010 0%, black 100%);
+	overflow: hidden;
+	animation-name: backgroundScale;
+	animation-duration: 40s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+
+	// 별 중심
+	& > span {
+		position: absolute;
+		width: 4px;
+		height: 4px;
+		background: white;
+		border-radius: 50%;
+		transform: rotate(320deg);
+		opacity: 0;
+		animation-name: starShooting;
+
+		// 별 중심 십자 빛 - 가로
+		&::before {
+			content: '';
+			position: absolute;
+			transform: translate(calc(-50% + 2px), 50%) rotateZ(40deg);
+			height: 2px;
+			border-radius: 100%;
+			background: linear-gradient(40deg, black, #7f7f7f, black);
+			animation-name: starShining;
+		}
+
+		// 별 중심 십자 빛 - 세로
+		&::after {
+			content: '';
+			position: absolute;
+			transform: translate(calc(-50% + 2px), 50%) rotateZ(-50deg);
+			height: 2px;
+			border-radius: 100%;
+			background: linear-gradient(40deg, black, #7f7f7f, black);
+			animation-name: starShining;
+		}
+
+		// 별 꼬리
+		& > span {
+			content: '';
+			position: absolute;
+			top: 50%;
+			height: 1px;
+			background: linear-gradient(90deg, #fff, transparent);
+			animation-name: starTail;
+		}
+
+		// 별 꼬리
+		@keyframes starTail {
+			0%,
+			100% {
+				width: 0;
+			}
+			80% {
+				width: 100px;
+			}
+		}
+
+		// 별 십자 반짝임
+		@keyframes starShining {
+			0%,
+			100% {
+				width: 0;
+			}
+			80% {
+				width: 30px;
+			}
+		}
+
+		// 별 이동, 투명도
+		@keyframes starShooting {
+			0% {
+				transform: rotate(320deg) translateX(0);
+			}
+			80% {
+				transform: rotate(320deg) translateX(-600px);
+				box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 0 8px rgba(255, 255, 255, 0.1);
+				opacity: 1;
+			}
+			100% {
+				transform: rotate(320deg) translateX(-650px);
+				opacity: 0;
+				box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+			}
+		}
+
+		// 랜덤 생성 - 위치, 딜레이, 지속기간
+		@for $i from 1 through 10 {
+			&:nth-child(#{$i}) {
+				$delay: random(10) + 0s;
+				$duration: random(7) + 3s;
+				top: calc(#{random(70)}% - 10%);
+				right: calc(#{random(70)}% - 10%);
+				animation-delay: $delay;
+				animation-duration: $duration;
+				animation-timing-function: linear;
+				animation-iteration-count: infinite;
+
+				&::before,
+				&::after {
+					animation-delay: $delay;
+					animation-duration: $duration;
+					animation-timing-function: linear;
+					animation-iteration-count: infinite;
+				}
+
+				& > span {
+					animation-delay: $delay;
+					animation-duration: $duration;
+					animation-timing-function: linear;
+					animation-iteration-count: infinite;
+				}
+			}
+		}
+	}
+}
+
+.mainPhrase {
+	@keyframes mainPhrase {
+		to {
+			opacity: 1;
+		}
+	}
+	opacity: 0;
+	animation-name: mainPhrase;
+	animation-fill-mode: both;
+	animation-duration: 3s;
+	animation-delay: 4s;
 }

@@ -1,18 +1,6 @@
 $utilities: () !default;
 $utilities: map-merge(
 	(
-		'button-padding': (
-			responsive: true,
-			property: padding,
-			class: bp,
-			values: (
-				1: 10px,
-				2: 15px,
-				3: 20px,
-				4: 25px,
-				5: 30px,
-			),
-		),
 		'opacity': (
 			responsive: true,
 			property: opacity,
@@ -30,34 +18,25 @@ $utilities: map-merge(
 			responsive: true,
 			property: right,
 			class: xr,
-			values: (
-				1: 5px,
-				2: 10px,
-				3: 15px,
-				4: 20px,
-			),
+			values: $pixel-value,
 		),
 		'xl': (
 			responsive: true,
 			property: left,
 			class: xl,
-			values: (
-				1: 5px,
-				2: 10px,
-				3: 15px,
-				4: 20px,
-			),
+			values: $pixel-value,
 		),
 		'yt': (
 			responsive: true,
 			property: top,
 			class: yt,
-			values: (
-				1: 5px,
-				2: 10px,
-				3: 15px,
-				4: 20px,
-			),
+			values: $pixel-value,
+		),
+		'yb': (
+			responsive: true,
+			property: bottom,
+			class: yb,
+			values: $pixel-value,
 		),
 		// overide
 		'visibility':

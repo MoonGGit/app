@@ -22,7 +22,7 @@ const PageCard = (card: Card) => {
 	// 상단에서 소스를 import할 경우에는 첫 글자가 capital이어야함
 
 	return (
-		<Link to={card.link} className={cn(bs['card'], bs['mb-4'], bs['pageCard'])}>
+		<Link to={card.link} className={cn(bs['card'], bs['mb-4'], bs['mb-md-6'], bs['pageCard'])}>
 			<div className={cn(bs['row'], bs['g-0'], bs['flex-nowrap'], bs['overflow-auto'])}>
 				<div className={cn(bs['col-4'], bs['overflow-hidden'], bs['align-items-center'], bs['d-flex'])}>
 					<img src={image} alt="image" className={cn(bs['w-100'], bs['h-100'])} />

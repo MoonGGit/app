@@ -43,16 +43,26 @@ const cardList: Card[] = [
 
 const PageCardList = ({ className }: { className: string }) => {
 	return (
-		<div className={cn(bs['row'], bs['col-md'], className)}>
+		<section className={cn(bs['row'], bs['col-md'], className)}>
 			<div className={cn(bs['col-12'], bs['col-md-9'])}>
 				{cardList.map(card => (
 					<PageCard key={card.no} {...card} />
 				))}
 			</div>
-			<div className={cn(bs['col-12'], bs['col-md-3'], bs['p-4'], bs['pt-2'], bs['v-invisible'], bs['v-md-visible'])}>
-				test info
+			<div
+				className={cn(
+					bs['col-12'],
+					bs['col-md-3'],
+					bs['p-4'],
+					bs['pt-2'],
+					bs['v-invisible'],
+					bs['v-md-visible'],
+					bs['infoBox'],
+				)}
+			>
+				* 공사중 *
 			</div>
-		</div>
+		</section>
 	);
 };
 

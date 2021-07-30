@@ -13,7 +13,7 @@ const Footer = () => {
 				bs['position-relative'],
 			)}
 		>
-			<ClickCounter className={cn(bs['position-absolute'], bs['yt-2'], bs['xl-2'])} />
+			<ClickCounter className={cn(bs['position-absolute'], bs['yt-2'], bs['xl-2'], bs['efs-2'], bs['efs-md-4'])} />
 			<div
 				className={cn(
 					bs['d-flex'],
