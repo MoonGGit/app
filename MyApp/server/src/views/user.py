@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, session
+from flask import Blueprint,  request, session
 from ..services.user import delete_user, put_user, post_user, login_user
 from .. import TEMPLATE_FORDER_PATH, STATIC_FORDER_PATH
 from ..services.helper import Result
@@ -18,10 +18,10 @@ def create():
         ip = request.headers.getlist("X-Real-IP")[0]
         result = post_user(userID, password, ip)
 
-        return jsonify(result.getDict())
+        return result.getDict()
 
     else:
-        return jsonify(Result(False, 'Not allowed access').getDict())
+        return Result(False, 'Not allowed access').getDict()
 
 # todo : 구현중
 
@@ -34,10 +34,10 @@ def update():
         password = request.json['password']
         result = put_user(userID, password)
 
-        return jsonify(result.getDict())
+        return result.getDict()
 
     else:
-        return jsonify(Result(False, 'Session expired').getDict())
+        return Result(False, 'Session expired').getDict()
 
 
 @user.route('/delete', methods=['POST'])
@@ -51,10 +51,10 @@ def delete():
             session.clear()
             # session.pop('userID', None)
 
-        return jsonify(result.getDict())
+        return result.getDict()
 
     else:
-        return jsonify(Result(False, 'Session expired').getDict())
+        return Result(False, 'Session expired').getDict()
 
 
 @user.route('/login', methods=['POST'])
@@ -66,7 +66,7 @@ def login():
     if result.success == True:
         session['userID'] = result.value.get('userID')
 
-    return jsonify(result.getDict())
+    return result.getDict()
 
 
 @user.route('/logout', methods=['GET'])
@@ -74,4 +74,4 @@ def logout():
     session.clear()
     # session.pop('userID', None)
 
-    return jsonify(Result(True, 'GoodBye').getDict())
+    return Result(True, 'GoodBye').getDict()

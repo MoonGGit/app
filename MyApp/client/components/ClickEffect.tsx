@@ -4,6 +4,7 @@ import bs from './scss/init.scss';
 import { clickCounterDispatch } from '../context/ClickCounterContext';
 import axios from 'axios';
 import io from 'socket.io-client';
+import global_value from '../helper/variables';
 
 const effectList = [TiStar, TiStarOutline];
 const socket = io('/room_click');
@@ -22,7 +23,8 @@ const Effect = ({ x, y }: { x: number; y: number }) => {
 		clickCounterDispatch({ type: 'INCREMENT' });
 		// axios.put('/click').catch(err => console.log('clickEffect : ', err));
 		// 중복요청으로 세션엉킴
-		socket.emit('click');
+		// todo : 소켓서버
+		socket.emit('click', { visitorName: global_value.socket_visitorName });
 
 		const target = effectRef?.current!;
 		const toX = x - target.offsetWidth / 2;

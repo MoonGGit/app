@@ -5,6 +5,7 @@ import { BsPeopleCircle } from 'react-icons/bs';
 import { UserContext, userDispatch } from '../context/UserContext';
 import axios from 'axios';
 
+// todo : 리팩토링, useFetch를 활용? reducer를 활용?
 const AccountBox = ({ className }: { className: string }) => {
 	const [navBarToggle, setNavBarToggle] = useState(false);
 	const onClickNavBarToggle = () => {
@@ -23,9 +24,8 @@ const AccountBox = ({ className }: { className: string }) => {
 	const registerPasswordRef = useRef<HTMLInputElement>(null);
 
 	const { state } = useContext(UserContext)!;
-	console.log(state);
 	const userID = state.value?.userID;
-	console.log(userID);
+
 	// 로그인 정보가 세션에 남아있거나, 로그인 되엇을 경우
 	useEffect(() => {
 		if (userID) {
@@ -34,6 +34,7 @@ const AccountBox = ({ className }: { className: string }) => {
 		} else {
 			// 로그아웃 시
 			setLoginToggle(true);
+			setRegisterToggle(false);
 		}
 	}, [userID]);
 
@@ -106,11 +107,11 @@ const AccountBox = ({ className }: { className: string }) => {
 				if (success) {
 					alert(`Register success : ${message}`);
 				} else {
-					alert(`Login error : ${message}`);
+					alert(`Register error : ${message}`);
 				}
 			})
 			.catch(err => {
-				alert(`Login error : ${err}`);
+				alert(`Register error : ${err}`);
 			});
 
 		setLoginToggle(true);
@@ -126,6 +127,9 @@ const AccountBox = ({ className }: { className: string }) => {
 			.then(res => {
 				const { success, message } = res.data;
 				if (success) {
+					userDispatch({ type: 'LOGOUT' });
+					setLoginToggle(true);
+					setRegisterToggle(false);
 					alert(`Deactivate success : ${message}`);
 				} else {
 					alert(`Deactivate error : ${message}`);
@@ -136,7 +140,7 @@ const AccountBox = ({ className }: { className: string }) => {
 			});
 	};
 
-	// 수정 창 추가
+	// todo : 수정 창 추가
 	return (
 		<div className={cn(bs['position-absolute'])}>
 			<button

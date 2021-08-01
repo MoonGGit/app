@@ -4,7 +4,6 @@ interface Action {
 	type: 'LOGIN' | 'INIT' | 'LOGOUT' | null;
 	value?: {
 		userID: string | null;
-		visitorName?: string | null;
 	};
 }
 
@@ -41,7 +40,7 @@ let userDispatch: React.Dispatch<Action>;
 
 const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
 	const initState: State = useMemo(() => {
-		return { type: null, value: { userID: null, visitorName: null }, error: false };
+		return { type: null, value: { userID: null }, error: false };
 	}, []);
 
 	const [state, dispatch] = useReducer(reducer, initState);

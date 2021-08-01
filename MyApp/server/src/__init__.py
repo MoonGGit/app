@@ -7,7 +7,6 @@ import os
 from datetime import timedelta
 from .services.accessed_ip import put_click_counts
 
-
 # PATH
 TEMPLATE_FORDER_PATH = '/app/client/dist/'
 STATIC_FORDER_PATH = '/app/client/dist/static'
@@ -63,19 +62,23 @@ def create_socket_io():
 
     @socket_io.on('connect', namespace='/room_click')
     def connect():
+        for k, v in request.headers.items():
+            print(k, '////', v)
         print('connected', flush=True)
 
     @socket_io.on('disconnect', namespace='/room_click')
     def disconnect():
+        for k, v in request.headers.items():
+            print(k, '////', v)
+        # todo : 누가 끊겼는지 확인
         print('disconnected', flush=True)
 
     @socket_io.on('click', namespace='/room_click')
-    def click():
+    def click(visitorNameJsonData):
         # 일단 /click 땜빵
         ip = request.headers.getlist("X-Real-IP")[0]
         put_click_counts(ip)
         ###
-        print('clicked', flush=True)
-        emit('someone_clicked', ('test', 200), broadcast=True)
+        emit('someone_clicked', visitorNameJsonData, broadcast=True)
 
     return socket_io

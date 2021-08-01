@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, jsonify, request, session
+from flask import Blueprint, render_template,  request, session
 from ..services.accessed_ip import put_click_counts, get_click_counts, put_visits
 from .. import TEMPLATE_FORDER_PATH, STATIC_FORDER_PATH
-
+import random
+from ..redis import redis
 
 main = Blueprint('main', __name__, url_prefix='/',
                  static_folder=STATIC_FORDER_PATH,
@@ -20,21 +21,17 @@ def index(path):
 @main.route('/init', methods=['GET'])
 def init():
     click_counts = get_click_counts()
-    # visitorName = 'CLICK' + str(random.randrange(1, 100000))
-    for k, v in session.items():
-        print(k, '////', v, flush=True)
 
-    # redis 중복체크 ! 저장 !
+    while True:
+        visitorName = 'visitor' + str(random.randrange(1, 100000))
+        result = redis.sadd('visitor_names', visitorName)
+        if result == 1:
+            break
+
     userID = session.get('userID')
 
-    return jsonify({'click_counts': click_counts, 'userID': userID})
-    # , 'visitorName': visitorName
+    return {'click_counts': click_counts, 'userID': userID, 'visitorName': visitorName}
 
-
-""" 
-클릭ID 랜덤생성, redis저장 , 반환, 클라 : 클릭ID저장
-클라 : 클릭시 클릭ID와 함께 전송, 서버 : 클릭ID와 함께 broadcast, 클라 : 반환된 클릭Id가 동일 시 + 안함
- """
 
 # 동시요청으로 세션관리가 안됨
 # @main.route('/click', methods=['PUT'])
