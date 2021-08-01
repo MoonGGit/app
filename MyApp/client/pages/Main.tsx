@@ -54,15 +54,7 @@ export default function Main() {
 						<span></span>
 					</span>
 					<img
-						className={cn(
-							bs['position-absolute'],
-							bs['xr-9'],
-							bs['yb-10'],
-							bs['xr-md-200'],
-							bs['yb-md-250'],
-							bs['z--1'],
-							bs['moon'],
-						)}
+						className={cn(bs['position-absolute'], bs['xr-9'], bs['yb-200'], bs['xr-md-200'], bs['z--1'], bs['moon'])}
 						src={Moon}
 					/>
 				</div>

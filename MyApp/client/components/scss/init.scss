@@ -8,6 +8,10 @@
 	user-select: none;
 }
 
+strong {
+	color: black;
+}
+
 a {
 	text-decoration: none;
 	color: black !important;
@@ -29,55 +33,115 @@ ul {
 
 .header {
 	backdrop-filter: blur(30px);
+	li > div > button {
+		color: black !important;
+	}
 }
 
 .headerColor {
-	@include lt-md {
-		*:not(ul a) {
-			transition: color 3s ease;
-			color: white !important;
-		}
+	a,
+	button {
+		transition: color 3s ease;
+		color: white !important;
 	}
-	@include gt-md {
-		* {
-			transition: color 3s ease;
-			color: white !important;
+
+	@include lt-md {
+		li > div > button {
+			color: black !important;
 		}
 	}
 }
 
 // HeaderNavBar
+@mixin navBarToggle {
+	@keyframes navBarToggle {
+		from {
+			top: 25px;
+			opacity: 0.2;
+		}
+		to {
+			top: 42px;
+			opacity: 1;
+		}
+	}
+	visibility: visible !important;
+	background-color: rgb(255, 255, 255);
+	border: 1px solid rgb(128, 128, 128, 0.3);
+	border-radius: 4px;
+	font-weight: bold;
+	font-size: 15px !important;
+	animation-name: navBarToggle;
+	animation-duration: 1s;
+	top: 42px;
+
+	li {
+		height: 40px;
+		display: flex;
+		justify-content: center;
+		&:not(&:last-child) {
+			border-bottom: 1px solid rgb(128, 128, 128, 0.3);
+		}
+		& > * {
+			color: black !important;
+		}
+	}
+}
+
 .navBarToggle-lt-md {
 	// 0~767 px
 	@include lt-md {
-		// todo-check : animation과 transition을 같이 쓸 수 있는가?
-		@keyframes navBarToggle {
-			from {
-				top: 25px;
-				opacity: 0.2;
-			}
-			to {
-				top: 42px;
-				opacity: 1;
-			}
-		}
-		visibility: visible !important;
-		background-color: rgb(255, 255, 255);
-		border: 1px solid rgb(128, 128, 128, 0.3);
-		border-radius: 4px;
-		font-weight: bold;
-		font-size: 15px !important;
-		animation-name: navBarToggle;
-		animation-duration: 1s;
-		top: 42px;
+		@include navBarToggle;
+	}
+}
 
-		li {
-			&:not(&:last-child) {
-				border-bottom: 1px solid rgb(128, 128, 128, 0.3);
-			}
-			& > * {
-				border-bottom: 1px solid rgb(128, 128, 128, 0.3);
-			}
+// 뷰박스
+.loginBarToggle {
+	@include navBarToggle;
+	right: -28px;
+	width: 302px;
+	height: 180px;
+
+	@keyframes loginBox {
+		from {
+			transform: translateX(300px);
+		}
+		to {
+			transform: translateX(0px);
+		}
+	}
+	& > div {
+		animation-name: loginBox;
+		animation-duration: 1s;
+		animation-timing-function: ease;
+		animation-fill-mode: both;
+		width: 300px;
+		height: 180px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+		padding-right: 5px;
+		padding-left: 5px;
+
+		& > input {
+			font-size: 14px;
+			font-weight: bold;
+			text-align: center;
+			border-radius: 5px;
+			border: 2px solid #777171;
+			box-sizing: border-box;
+			border-color: #999999;
+			color: black !important;
+		}
+
+		& > button {
+			border: none;
+			border-radius: 5px;
+			font-weight: bold;
+			font-size: 13px;
+			border: 1px solid black;
+			background: black;
+			color: lightgrey;
+			opacity: 0.7;
 		}
 	}
 }
@@ -301,8 +365,8 @@ ul {
 			&:nth-child(#{$i}) {
 				$delay: random(10) + 0s;
 				$duration: random(7) + 3s;
-				top: calc(#{random(70)}% - 10%);
-				right: calc(#{random(70)}% - 10%);
+				top: calc(#{random(60)}% - 10%);
+				right: calc(#{random(65)}% - 10%);
 				animation-delay: $delay;
 				animation-duration: $duration;
 				animation-timing-function: linear;
@@ -338,4 +402,30 @@ ul {
 	animation-fill-mode: both;
 	animation-duration: 3s;
 	animation-delay: 4s;
+}
+
+.clickCounter {
+	animation: text-shadow 1.5s ease-in-out both;
+}
+@keyframes text-shadow {
+	0%,
+	100% {
+		transform: translateY(0);
+		text-shadow: 0;
+	}
+
+	20% {
+		transform: translateY(-1em);
+		text-shadow: 0 0.125em 0 #dc6565, 0 0.25em 0 #2c4bfd, 0 -0.125em 0 #8c7577, 0 -0.25em 0 #a5a587;
+	}
+
+	40% {
+		transform: translateY(0.5em);
+		text-shadow: 0 -0.0625em 0 #dc6565, 0 -0.125em 0 #2c4bfd, 0 0.0625em 0 #8c7577, 0 0.125em 0 #a5a587;
+	}
+
+	60% {
+		transform: translateY(-0.25em);
+		text-shadow: 0 0.03125em 0 #dc6565, 0 0.0625em 0 #2c4bfd, 0 -0.03125em 0 #8c7577, 0 -0.0625em 0 #a5a587;
+	}
 }

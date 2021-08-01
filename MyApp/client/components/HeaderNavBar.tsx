@@ -2,6 +2,8 @@ import { useState } from 'react';
 import bs from './scss/init.scss';
 import cn from 'classnames';
 import { BiMenu } from 'react-icons/bi';
+import { IoLogoGithub } from 'react-icons/Io';
+import AccountBox from './AccountBox';
 
 const HeaderNavBar = () => {
 	const [navBarToggle, setNavBarToggle] = useState(false);
@@ -18,11 +20,10 @@ const HeaderNavBar = () => {
 			</button>
 
 			<ul
-				id="navbarToggleContent"
 				className={cn(
 					// hamburger mode
 					bs['v-invisible'],
-					bs['text-end'],
+					bs['text-center'],
 					bs['position-absolute'],
 					bs['xr-1'],
 					{ [bs['navBarToggle-lt-md']]: navBarToggle },
@@ -38,7 +39,13 @@ const HeaderNavBar = () => {
 					<a href="#">BLOG</a>
 				</li>
 				<li className={cn(bs['nav-link'])}>
-					<a href="#">GIT</a>
+					<a href="#">
+						<IoLogoGithub />
+					</a>
+				</li>
+				<li className={cn(bs['nav-link'])}>
+					{/* todo : 열린상태서 햄버거누르면 유지... */}
+					<AccountBox className={cn({ [bs['v-invisible']]: !navBarToggle })} />
 				</li>
 			</ul>
 		</nav>

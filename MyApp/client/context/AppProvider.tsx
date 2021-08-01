@@ -1,5 +1,6 @@
 import { createElement } from 'react';
 import { ClickCounterProvider } from './ClickCounterContext';
+import { UserContextProvider } from './UserContext';
 
 // contexts: React.Provider<any>[] ts가 허용안함
 const AppProvider =
@@ -7,4 +8,4 @@ const AppProvider =
 	({ children }: { children: React.ReactNode }) =>
 		providers.reduce((prev, provider) => createElement(provider, { children: prev }), children);
 
-export default AppProvider([ClickCounterProvider]);
+export default AppProvider([ClickCounterProvider, UserContextProvider]);

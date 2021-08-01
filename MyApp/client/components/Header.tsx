@@ -19,7 +19,7 @@ const headerBackgroundStyle: React.CSSProperties = {
 // todo-update : 로고
 const Header = () => {
 	const location = useLocation();
-	const scrollY = useScroll(window.innerHeight + 250);
+	const scrollY = useScroll(window.innerHeight + 400);
 	const headerBackgroundRef = useRef<HTMLDivElement>(null);
 	const headerRef = useRef<HTMLElement>(null);
 

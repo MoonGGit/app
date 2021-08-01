@@ -20,7 +20,8 @@ const Effect = ({ x, y }: { x: number; y: number }) => {
 
 	useEffect(() => {
 		clickCounterDispatch({ type: 'INCREMENT' });
-		axios.put('/click');
+		// axios.put('/click').catch(err => console.log('clickEffect : ', err));
+		// 중복요청으로 세션엉킴
 		socket.emit('click');
 
 		const target = effectRef?.current!;

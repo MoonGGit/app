@@ -1,4 +1,4 @@
-import { useReducer, createContext, Dispatch, useMemo } from 'react';
+import { useReducer, createContext, useMemo } from 'react';
 
 // 타입 지정
 interface Action {
@@ -13,7 +13,7 @@ interface State extends Action {
 }
 
 // 리듀서
-const reducer = (state: State, action: Action) => {
+const reducer = (state: State, action: Action): State => {
 	switch (action.type) {
 		case 'INCREMENT':
 			action.value ? action.value++ : state.value!++;
