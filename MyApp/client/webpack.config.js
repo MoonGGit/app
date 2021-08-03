@@ -44,8 +44,10 @@ module.exports = {
 				use: [
 					{
 						loader: 'file-loader',
+						// url-loader는 base64 URL로 변환해줌
 						options: {
-							name: '[name].[ext]?[hash]',
+							name: 'assets/[name].[ext]?[hash]',
+							// output의 경로 + assets/...
 						},
 					},
 				],

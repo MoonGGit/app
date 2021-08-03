@@ -58,7 +58,7 @@ def create_app():
 def create_socket_io():
     """ Create Socket IO """
     Payload.max_decode_packets = 100
-    socket_io = SocketIO(async_mode='gevent')
+    socket_io = SocketIO(async_mode='gevent', ping_timeout=10, ping_interval=1)
 
     @socket_io.on('connect', namespace='/room_click')
     def connect():

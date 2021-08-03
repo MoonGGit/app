@@ -39,7 +39,7 @@ const HeaderNavBar = () => {
 					<a href="#">BLOG</a>
 				</li>
 				<li className={cn(bs['nav-link'])}>
-					<a href="#">
+					<a href="https://github.com/MoonGGit/app">
 						<IoLogoGithub />
 					</a>
 				</li>

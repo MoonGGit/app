@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, ChangeEvent, useCallback } from 'react';
 import FileDragAndDrop from './FileDragAndDrop';
 import bs from './scss/init.scss';
-import { AiOutlineDownload, AiOutlineVerticalAlignMiddle } from 'react-icons/ai';
+import { AiOutlineDownload } from 'react-icons/ai';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 
 const DotsConverter = ({ className }: { className: string }) => {
@@ -42,6 +42,7 @@ const DotsConverter = ({ className }: { className: string }) => {
 	}, []);
 
 	// 변환 작업
+	// todo : 공백 png는 해당 블럭 에러, 화살표보임
 	const handleConvert = useCallback(async () => {
 		if (
 			imageFile !== null &&
@@ -86,8 +87,8 @@ const DotsConverter = ({ className }: { className: string }) => {
 						// 이미지를 도트 크기로 나누어서 각각 처리
 						for (let x = 0; x < canvas.width; x += dotsSizeX) {
 							for (let y = 0; y < canvas.height; y += dotsSizeY) {
-								const width = x + dotsSizeX < canvas.width ? dotsSizeX : dotsSizeXRest;
-								const height = y + dotsSizeY < canvas.height ? dotsSizeY : dotsSizeYRest;
+								const width = x + dotsSizeX <= canvas.width ? dotsSizeX : dotsSizeXRest;
+								const height = y + dotsSizeY <= canvas.height ? dotsSizeY : dotsSizeYRest;
 								const r = [],
 									g = [],
 									b = [],
@@ -202,7 +203,9 @@ const DotsConverter = ({ className }: { className: string }) => {
 						<tr>
 							<td>도트 크기</td>
 							<td>
-								<input type="range" min="1" max="100" step="1" defaultValue="1" ref={dotsSizeRef} />
+								<input type="range" min="1" max="100" step="1" defaultValue="5" ref={dotsSizeRef} />
+								<br />
+								<small>* 렉 주의 *</small>
 							</td>
 						</tr>
 						<tr>

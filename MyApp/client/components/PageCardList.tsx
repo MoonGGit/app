@@ -6,7 +6,7 @@ const cardList: Card[] = [
 	{
 		no: 1,
 		link: './dots-converter',
-		imagePath: 'test.jpg',
+		imagePath: 'pixel.png',
 		title: "Image to Dots(Pixels)'s block Converter",
 		description1: '이미지를 다트형식으로 변환시켜 드립니다.',
 		description2: (
@@ -49,17 +49,7 @@ const PageCardList = ({ className }: { className: string }) => {
 					<PageCard key={card.no} {...card} />
 				))}
 			</div>
-			<div
-				className={cn(
-					bs['col-12'],
-					bs['col-md-3'],
-					bs['p-4'],
-					bs['pt-2'],
-					bs['v-invisible'],
-					bs['v-md-visible'],
-					bs['infoBox'],
-				)}
-			>
+			<div className={cn(bs['col-12'], bs['col-md-3'], bs['p-4'], bs['pt-2'], bs['v-invisible'], bs['v-md-visible'], bs['infoBox'])}>
 				* 공사중 * <br /> * 아직 개발모드 입니다. *
 			</div>
 		</section>

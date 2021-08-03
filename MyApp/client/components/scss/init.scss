@@ -447,7 +447,11 @@ ul {
 			height: 100%;
 			text-align: center;
 			transform: rotateX(180deg);
-			font-size: 20vw;
+			font-size: 10vw;
+			padding: 10vw;
+			@include lt-md {
+				padding: 20vw;
+			}
 		}
 	}
 	@keyframes dragging {
@@ -484,6 +488,10 @@ ul {
 	width: 47vw;
 	margin-right: 3vw;
 	padding: 2vw;
+	@include lt-md {
+		width: 100%;
+		margin-bottom: 10px;
+	}
 }
 
 .dotsConverter-View {
@@ -525,6 +533,11 @@ ul {
 	text-align: center;
 	height: 60%;
 	margin-bottom: 4px;
+
+	@include lt-md {
+		width: 100%;
+	}
+
 	&,
 	th,
 	td {
@@ -558,5 +571,46 @@ ul {
 		background-color: #dfe6e9;
 		border: 1px solid #b2bec3;
 		border-radius: 4px;
+	}
+}
+
+.dots-background-wrapper {
+	overflow: hidden;
+	pointer-events: none;
+	width: 100%;
+	clip-path: inset(0);
+
+	// todo : dist/static에 뽑히지만, 블랙앤화이트0
+	// background-image: url(../../assets/images/leaves2.png);
+}
+
+.dots-background {
+	display: flex;
+	position: fixed;
+	height: 100%;
+
+	& > img {
+		width: 100vw;
+		height: 100%;
+	}
+
+	animation-name: leavesToggle;
+	animation-duration: 3s;
+	animation-iteration-count: infinite;
+	animation-timing-function: step-start;
+	@keyframes leavesToggle {
+		0%,
+		100% {
+			transform: translateX(0vw);
+		}
+		25% {
+			transform: translateX(-100vw);
+		}
+		50% {
+			transform: translateX(-200vw);
+		}
+		75% {
+			transform: translateX(-300vw);
+		}
 	}
 }
