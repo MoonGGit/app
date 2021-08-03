@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import DivisionLine from '../components/DivisionLine';
+import DotsConverterMain from '../components/DotsConverter';
 
 const DotsConverter = () => {
 	useEffect(() => {
@@ -8,7 +10,10 @@ const DotsConverter = () => {
 	return (
 		<div>
 			<div style={{ height: '500px' }} />
-			Dots_converter page
+			<DivisionLine />
+			<h1>Dots_converter page </h1>
+			<DotsConverterMain className={''} />
+			<DivisionLine />
 			<div style={{ height: '500px' }} />
 		</div>
 	);

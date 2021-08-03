@@ -429,3 +429,134 @@ ul {
 		text-shadow: 0 0.03125em 0 #dc6565, 0 0.0625em 0 #2c4bfd, 0 -0.03125em 0 #8c7577, 0 -0.0625em 0 #a5a587;
 	}
 }
+
+.dragAndDrop {
+	display: flex;
+	position: relative;
+	border: 1px solid black;
+	overflow: hidden;
+
+	& > label {
+		width: 100%;
+		height: 100%;
+		& > div {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			height: 100%;
+			text-align: center;
+			transform: rotateX(180deg);
+			font-size: 20vw;
+		}
+	}
+	@keyframes dragging {
+		0%,
+		100% {
+			transform: translateY(-10px) rotateX(180deg);
+		}
+		50% {
+			transform: translateY(10px) rotateX(180deg);
+		}
+	}
+	.dragging {
+		& > div {
+			animation-name: dragging;
+			animation-iteration-count: infinite;
+			animation-duration: 2s;
+			animation-timing-function: ease-in-out;
+		}
+	}
+}
+
+.dotsConverter-Wrapper {
+	display: flex;
+	flex-direction: row;
+	padding: 10vw;
+
+	@include lt-md {
+		flex-direction: column;
+	}
+}
+
+.dotsConverterView-Wrapper {
+	border: 1px solid black;
+	width: 47vw;
+	margin-right: 3vw;
+	padding: 2vw;
+}
+
+.dotsConverter-View {
+	position: relative;
+	border: 1px solid black;
+	margin-bottom: 5px;
+}
+
+.dragAndDropImage {
+	position: absolute;
+	width: calc(100% - 2px);
+	height: calc(100% - 2px);
+	top: 1px;
+	left: 1px;
+	visibility: hidden;
+	pointer-events: none;
+}
+
+.dotsConverter-Nav {
+	margin: 2px;
+	border: 1px solid black;
+	padding: 5px;
+	padding-top: 0px;
+	display: flex;
+	justify-content: flex-end;
+
+	& > button {
+		border: none;
+		background: none;
+		font-size: 3vh;
+		&:not(:last-child) {
+			margin-right: 5px;
+		}
+	}
+}
+
+.dotsConverter-settingTable {
+	font-size: 2vh;
+	text-align: center;
+	height: 60%;
+	margin-bottom: 4px;
+	&,
+	th,
+	td {
+		border: 1px solid #b2bec3;
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+	th,
+	tr > td:first-of-type {
+		background-color: #dfe6e9;
+	}
+	width: 30vw;
+	border-collapse: collapse;
+
+	select {
+		text-align-last: center;
+	}
+
+	input,
+	select {
+		width: 90%;
+	}
+}
+
+.dotsConverter-settingTable-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+
+	& > button {
+		background-color: #dfe6e9;
+		border: 1px solid #b2bec3;
+		border-radius: 4px;
+	}
+}

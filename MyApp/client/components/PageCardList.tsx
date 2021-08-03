@@ -11,7 +11,7 @@ const cardList: Card[] = [
 		description1: '이미지를 다트형식으로 변환시켜 드립니다.',
 		description2: (
 			<div>
-				<br /> <br /> <span>* 업데이트 중 *</span>{' '}
+				<br /> <br /> <span>* 업데이트 중 *</span>
 			</div>
 		),
 	},
@@ -60,7 +60,7 @@ const PageCardList = ({ className }: { className: string }) => {
 					bs['infoBox'],
 				)}
 			>
-				* 공사중 *
+				* 공사중 * <br /> * 아직 개발모드 입니다. *
 			</div>
 		</section>
 	);
