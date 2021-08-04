@@ -1,36 +1,62 @@
-# My App.
+# `My App.`
 
-<br/><br/>
+포트폴리오로써, 또한 여러 기능을 구현해보기 위한 웹 애플리케이션입니다.
 
-### `참고 사이트 `
 
-앞
+<a href="http://app.dayfly.kr">Deploying My Website On Here</a>
 
-> <a href="https://chanyeong.com/blog/post/7">CRA없이 REACT + TypeScript 셋팅하기!</a>
 
-뒤
+<br />
 
-> <a href="https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-18-04">How To Serve Flask Applications with Gunicorn and Nginx on Ubuntu 18.04</a>
 
-> <a href="https://docs.gunicorn.org/en/stable/deploy.html">Gunicorn docs - Deploying Gunicorn-Nginx Configuration</a>
+## Tech Stack
 
-> <a href="https://docs.docker.com/compose/compose-file/compose-file-v3/">docker docs - Compose file reference</a>
 
-> <a href="https://m.blog.naver.com/parkjy76/221570301844">docker 상에서 nginx 와 uwsgi를 unix socket으로 연결</a>
+<img src="https://github.com/MoonGGit/source/blob/main/Layer%201m.jpg?raw=true"  />
 
-메모
-npx webpack server --mode development
-npx json-server ./testdata.json --port 4000
-extract-text-webpack-plugin@next
 
-todo-update
-todo-check
-todo-memo
+<br />
 
-명명 규칙
-파이썬 파일 : 소문자, 언더스코어
-파이썬 변수 :
-JS 파일, 변수 : 소문자시작, 카멜 표기
-JS 컴포넌트 명, 파일 : 대문자시작, 카멜 표기
-mysql 테이블 : 소문자, 언더스코어, 복수형, 축약X + 능동
-mysql 칼럼 : 접미어 활용, fk는 fk-부모테이블 등
+
+기타 : Session인증, SocketIO
+
+
+<br />
+
+
+## Todo List
+
+1. 버그 수정
+2. 리팩토링
+3. 부트스트랩 걷어내기
+4. XSS, CSRF 방지
+5. SSL적용
+
+
+<br />
+
+
+## 추후 업데이트
+
+1. 미구현 기능(카카오 공유, 회원정보 수정, 개인 저장소 구현) 추가
+2. 소켓서버 구현 및 실시간 채팅 + @
+3. 영상 도트화
+
+
+<br />
+
+
+## 다음 도전 Tech
+> Appolo + GraphQL
+>
+> PWA
+>
+> Kubernetes
+
+
+<br />
+
+
+# `My Blog.`
+
+개인 블로그를 작성할 예정입니다.
