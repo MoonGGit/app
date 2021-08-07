@@ -30,14 +30,18 @@ class User(Base):
     ip = Column(String(15))
     banned = Column(Boolean)
     banned_date = Column(DateTime)
+    refresh_token = Column(String(500))
+    refresh_token_ip = Column(String(20))
 
-    def __init__(self, id, password, sign_up_date, ip, banned=False, banned_date=null()):
+    def __init__(self, id, password, sign_up_date, ip, banned=False, banned_date=null(), refresh_token=null(), refresh_token_ip=null()):
         self.id = id
         self.password = password
         self.sign_up_date = sign_up_date
         self.ip = ip
         self.banned = banned
         self.banned_date = banned_date
+        self.refresh_token = refresh_token
+        self.refresh_token_ip = refresh_token_ip
 
 
 class Image_Path(Base):

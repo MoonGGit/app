@@ -3,11 +3,11 @@ import { TiStar, TiStarOutline } from 'react-icons/ti';
 import bs from './scss/init.scss';
 import { clickCounterDispatch } from '../context/ClickCounterContext';
 import axios from 'axios';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import global_value from '../helper/variables';
 
 const effectList = [TiStar, TiStarOutline];
-const socket = io('/room_click');
+// const socket = io('/room_click');
 
 // todo-update : effect와 class를 파라미터로 받기
 const Effect = ({ x, y }: { x: number; y: number }) => {
@@ -24,7 +24,7 @@ const Effect = ({ x, y }: { x: number; y: number }) => {
 		// axios.put('/click').catch(err => console.log('clickEffect : ', err));
 		// 중복요청으로 세션엉킴
 		// todo : 소켓서버
-		socket.emit('click', { visitorName: global_value.socket_visitorName });
+		// socket.emit('click', { visitorName: global_value.socket_visitorName });
 
 		const target = effectRef?.current!;
 		const toX = x - target.offsetWidth / 2;

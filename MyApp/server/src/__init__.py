@@ -1,11 +1,14 @@
-from flask import Flask, session, request
+from flask import Flask
 from .database import engine
 from .models import Base
-from flask_socketio import SocketIO, emit
-from engineio.payload import Payload
+""" from flask_socketio import SocketIO, emit
+from engineio.payload import Payload """
 import os
+from flask_jwt_extended import JWTManager
 from datetime import timedelta
-from .services.accessed_ip import put_click_counts
+
+# from .services.accessed_ip import put_click_counts
+
 
 # PATH
 TEMPLATE_FORDER_PATH = '/app/client/dist/'
@@ -25,17 +28,27 @@ def create_app():
     ##############################
     #           config           #
     ##############################
-    app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
-    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
+    # app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
     app.config.update(APPLICATION_ROOT="/",
-                      SESSION_COOKIE_SAMESITE="None",
-                      SESSION_COOKIE_SECURE=True,
-                      SESSION_COOKIE_PATH="/")
+                      # SESSION_COOKIE_SAMESITE="None",
+                      # SESSION_COOKIE_SECURE=False,
+                      # SESSION_COOKIE_PATH="/",
+                      # PERMANENT_SESSION_LIFETIME=timedelta(minutes=30),
+
+                      # over https. In production, this should always be set to True
+                      JWT_COOKIE_SECURE=False,
+                      JWT_TOKEN_LOCATION=["cookies", "headers"],
+                      JWT_SECRET_KEY=os.environ['JWT_SECRET_KEY'],
+                      JWT_ACCESS_TOKEN_EXPIRES=timedelta(minutes=30),
+                      JWT_REFRESH_TOKEN_EXPIRES=timedelta(hours=1)
+                      )
+
+    jwt = JWTManager(app)
 
     @app.before_request
     def before_request():
         app.jinja_env.cache = {}
-        session.permanent = True
+        # session.permanent = True
 
     ##############################
     #          blueprint         #
@@ -55,10 +68,12 @@ def create_app():
     return app
 
 
+""" 
+소켓서버로 
+
 def create_socket_io():
-    """ Create Socket IO """
     Payload.max_decode_packets = 100
-    socket_io = SocketIO(async_mode='gevent', ping_timeout=10, ping_interval=1)
+    socket_io = SocketIO()
 
     @socket_io.on('connect', namespace='/room_click')
     def connect():
@@ -81,4 +96,4 @@ def create_socket_io():
         ###
         emit('someone_clicked', visitorNameJsonData, broadcast=True)
 
-    return socket_io
+    return socket_io """

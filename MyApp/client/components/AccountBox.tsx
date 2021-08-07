@@ -4,6 +4,7 @@ import cn from 'classnames';
 import { BsPeopleCircle } from 'react-icons/bs';
 import { UserContext, userDispatch } from '../context/UserContext';
 import axios from 'axios';
+import { getCookie } from '../helper/cookie';
 
 // todo : 리팩토링, useFetch를 활용? reducer를 활용?
 const AccountBox = ({ className }: { className: string }) => {
@@ -18,41 +19,46 @@ const AccountBox = ({ className }: { className: string }) => {
 	// 등록 창
 	const [registerToggle, setRegisterToggle] = useState(false);
 
+	// 정보 수정 창
+	const [yourAccountToggle, setYourAccountToggle] = useState(false);
+
 	const loginIDRef = useRef<HTMLInputElement>(null);
 	const loginPasswordRef = useRef<HTMLInputElement>(null);
 	const registerIDRef = useRef<HTMLInputElement>(null);
 	const registerPasswordRef = useRef<HTMLInputElement>(null);
+	const changePasswordRef = useRef<HTMLInputElement>(null);
 
 	const { state } = useContext(UserContext)!;
-	const userID = state.value?.userID;
+	const { accessToken, userID } = state.value!;
 
-	// 로그인 정보가 세션에 남아있거나, 로그인 되엇을 경우
+	// 새 접속/로그인 or 로그아웃
 	useEffect(() => {
-		if (userID) {
+		if (accessToken && userID) {
 			setLoginToggle(false);
 			setRegisterToggle(false);
+			setYourAccountToggle(false);
 		} else {
-			// 로그아웃 시
 			setLoginToggle(true);
 			setRegisterToggle(false);
 		}
-	}, [userID]);
+	}, [accessToken, userID]);
 
-	// 로그인처리
+	// 로그인
 	const onClickLogin = () => {
 		const userID = loginIDRef?.current!.value;
 		const password = loginPasswordRef?.current!.value;
 
 		axios
-			.post('/user/login', {
+			.post('/user', {
 				userID: userID,
 				password: password,
 			})
 			.then(res => {
 				const { success, message, value } = res.data;
-				console.log(success, message, value);
+
 				if (success) {
-					userDispatch({ type: 'LOGIN', value: { userID: value.userID } });
+					const { access_token, user_id } = value;
+					userDispatch({ type: 'LOGIN', value: { accessToken: access_token, userID: user_id } });
 					alert(`Login success : ${message}`);
 				} else {
 					alert(`Login error : ${message}`);
@@ -69,10 +75,19 @@ const AccountBox = ({ className }: { className: string }) => {
 		setRegisterToggle(true);
 	};
 
-	// 로그아웃 -> 로그인창 열기 -> 유저 아이디 삭제
+	// 정보 수정창 열기
+	const onClickYourAccount = () => {
+		setYourAccountToggle(true);
+	};
+
+	const onClickBack = () => {
+		setYourAccountToggle(false);
+	};
+
+	// 로그아웃
 	const onClickLogOut = () => {
 		axios
-			.get('/user/logout')
+			.post('/user/board')
 			.then(res => {
 				const { success, message } = res.data;
 
@@ -91,13 +106,13 @@ const AccountBox = ({ className }: { className: string }) => {
 		setRegisterToggle(false);
 	};
 
-	// 회원가입처리 -> 로그인창 이동
+	// 회원가입처리
 	const onClickRegister = () => {
 		const userID = registerIDRef?.current!.value;
 		const password = registerPasswordRef?.current!.value;
 
 		axios
-			.post('/user/post', {
+			.post('/user/new', {
 				userID: userID,
 				password: password,
 			})
@@ -121,8 +136,11 @@ const AccountBox = ({ className }: { className: string }) => {
 	// 탈퇴 처리
 	const onClickDeactivate = () => {
 		axios
-			.post('/user/delete', {
-				userID: userID,
+			.delete('/user/board', {
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+					'X-CSRF-TOKEN': getCookie('csrf_refresh_token'),
+				},
 			})
 			.then(res => {
 				const { success, message } = res.data;
@@ -136,11 +154,43 @@ const AccountBox = ({ className }: { className: string }) => {
 				}
 			})
 			.catch(err => {
-				alert(`Deactivate error : ${err}`);
+				alert(`${err}`);
 			});
 	};
 
-	// todo : 수정 창 추가
+	const onClickChange = () => {
+		const newPassword = changePasswordRef?.current!.value;
+
+		axios
+			.put(
+				'/user/board',
+				{
+					newPassword: newPassword,
+					userID: userID,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+						'X-CSRF-TOKEN': getCookie('csrf_refresh_token'),
+					},
+				},
+			)
+			.then(res => {
+				const { success, message, value } = res.data;
+				if (success) {
+					if (value.access_token) {
+						userDispatch({ type: 'SET_ACCESS_TOKEN', value: { accessToken: value.access_token } });
+					} else {
+						onClickBack();
+					}
+					alert(`Change success : ${message}`);
+				} else {
+					alert(`Change error : ${message}`);
+				}
+			})
+			.catch(err => alert(err));
+	};
+
 	return (
 		<div className={cn(bs['position-absolute'])}>
 			<button
@@ -172,13 +222,24 @@ const AccountBox = ({ className }: { className: string }) => {
 					<></>
 				)}
 
-				{!loginToggle && !registerToggle && userID ? (
+				{!loginToggle && !registerToggle && !yourAccountToggle && accessToken && userID ? (
 					<div>
-						<strong>'{userID}'님 환영합니다. </strong>
-						<button>Your account</button>
+						<strong>'{userID}'님 환영합니다.</strong>
+						<button onClick={onClickYourAccount}>Your account</button>
 						<button>Archive</button>
 						<button onClick={onClickLogOut}>Log out</button>
 						<button onClick={onClickDeactivate}>Deactivate</button>
+					</div>
+				) : (
+					<></>
+				)}
+
+				{yourAccountToggle && accessToken && userID ? (
+					<div>
+						<strong>Change password.</strong>
+						<input ref={changePasswordRef} type="text" placeholder="NEW PASSWORD" />
+						<button onClick={onClickChange}>Change</button>
+						<button onClick={onClickBack}>Back</button>
 					</div>
 				) : (
 					<></>

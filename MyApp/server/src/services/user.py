@@ -5,8 +5,7 @@ from datetime import datetime
 from .helper import Result
 
 
-def post_user(id, password, ip):
-    """ create """
+def create_user(id, password, ip):
     with session_scope() as session:
         try:
             if session.query(User.id).filter(User.id == id).first() != None:
@@ -25,17 +24,34 @@ def post_user(id, password, ip):
             return Result(False, 'Database error')
 
 
-def put_user(id, password):
-    """ update """
+def update_user(user_id, new_password):
     with session_scope() as session:
         try:
-            user = session.query(User).filter(User.id == id).first()
+            user = session.query(User).filter(User.id == user_id).first()
 
             if user == None:
                 return Result(False, 'Not exist ID')
 
             else:
-                user.password = password
+                user.password = new_password
+
+                return Result(True,  'Update success')
+
+        except:
+            return Result(False, 'Database error')
+
+
+def set_refresh_token(user_id, refresh_token, refresh_token_ip):
+    with session_scope() as session:
+        try:
+            user = session.query(User).filter(User.id == user_id).first()
+
+            if user == None:
+                return Result(False, 'Not exist ID')
+
+            else:
+                user.refresh_token = refresh_token
+                user.refresh_token_ip = refresh_token_ip
 
                 return Result(True,  'Update success')
 
@@ -44,7 +60,6 @@ def put_user(id, password):
 
 
 def delete_user(id):
-    """ delete """
     with session_scope() as session:
         try:
             user = session.query(User).filter(User.id == id).first()
@@ -62,14 +77,13 @@ def delete_user(id):
 
 
 def login_user(id, password):
-    """ login """
     with session_scope() as session:
         try:
             user = session.query(User).filter(
                 and_(User.id == id, User.password == password)).first()
 
             if not user is None:
-                return Result(True, 'Login success', {'userID': id})
+                return Result(True, 'Login success', {'user_id': id})
 
             else:
                 return Result(False, 'No matching data')

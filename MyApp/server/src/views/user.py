@@ -1,7 +1,8 @@
-from flask import Blueprint,  request, session
-from ..services.user import delete_user, put_user, post_user, login_user
+from flask import Blueprint, request, jsonify
+from ..services.user import delete_user, update_user, create_user, login_user, set_refresh_token
+from ..services.helper import Result, token_check
 from .. import TEMPLATE_FORDER_PATH, STATIC_FORDER_PATH
-from ..services.helper import Result
+from flask_jwt_extended import create_access_token, create_refresh_token, unset_jwt_cookies, set_refresh_cookies
 
 # todo: escape 적용
 user = Blueprint('user', __name__, url_prefix='/user/',
@@ -10,68 +11,111 @@ user = Blueprint('user', __name__, url_prefix='/user/',
                  )
 
 
-@user.route('/post', methods=['POST'])
-def create():
-    if not 'userID' in session:
-        userID = request.json['userID']
-        password = request.json['password']
-        ip = request.headers.getlist("X-Real-IP")[0]
-        result = post_user(userID, password, ip)
-
-        return result.getDict()
-
-    else:
-        return Result(False, 'Not allowed access').getDict()
-
-# todo : 구현중
-
-
-@user.route('/put', methods=['PUT'])
-def update():
-    userID = request.json['userID']
-
-    if 'userID' in session and userID == session['userID']:
-        password = request.json['password']
-        result = put_user(userID, password)
-
-        return result.getDict()
-
-    else:
-        return Result(False, 'Session expired').getDict()
-
-
-@user.route('/delete', methods=['POST'])
-def delete():
-    userID = request.json['userID']
-
-    if 'userID' in session and userID == session['userID']:
-        result = delete_user(userID)
-
-        if result.success == True:
-            session.clear()
-            # session.pop('userID', None)
-
-        return result.getDict()
-
-    else:
-        return Result(False, 'Session expired').getDict()
-
-
-@user.route('/login', methods=['POST'])
-def login():
+# 계정 생성
+@user.route('/new', methods=['POST'])
+def new():
     userID = request.json['userID']
     password = request.json['password']
-    result = login_user(userID, password)
+    ip = request.headers.getlist("X-Real-IP")[0]
+    result = create_user(userID, password, ip)
+
+    return jsonify(result.getDict())
+
+
+# 로그인
+@user.route('/', methods=['POST'])
+def login():
+    user_id = request.json['userID']
+    password = request.json['password']
+    login_user_result = login_user(user_id, password)
+
+    if login_user_result.success == True:
+        ip = request.headers.getlist("X-Real-IP")[0]
+        access_token = create_access_token(
+            identity=login_user_result.value.get('user_id'))
+        refresh_token = create_refresh_token(
+            identity='', additional_claims={'refresh_token_ip': ip})
+        set_refresh_token_result = set_refresh_token(
+            login_user_result.value.get('user_id'), refresh_token, ip)
+
+        if set_refresh_token_result.success is True:
+            response_dict = login_user_result.getDict()
+            response_dict['value'].update({'access_token': access_token})
+            response = jsonify(response_dict)
+            set_refresh_cookies(response, refresh_token)
+
+            return response
+
+        else:
+            return jsonify(set_refresh_token_result.getDict())
+
+    else:
+        return jsonify(login_user_result.getDict())
+
+
+# 로그아웃
+@user.route('/board', methods=['POST'])
+def logout():
+    response = jsonify(Result(True, 'GoodBye').getDict())
+    # todo : db 토큰도 삭제
+    unset_jwt_cookies(response)
+    return response
+
+
+# 계정 정보 변경
+@user.route('/board', methods=['PUT'])
+@token_check
+def id_update(user_id, access_token):
+    if user_id is request.json['userID']:
+        new_password = request.json['newPassword']
+        result = update_user(user_id, new_password)
+
+        if result.success is True:
+            response = result.getDict()
+
+            if access_token is not None:
+                response['value'].update({'access_token': access_token})
+
+            return jsonify(response)
+
+        else:
+            return jsonify(result.getDict())
+
+    else:
+        return jsonify(Result(False, 'Invalide token, Retry Login').getDict())
+
+
+# 계정 정보 삭제
+@user.route('/board', methods=['DELETE'])
+@token_check
+def id_delete(user_id, access_token=None):
+    result = delete_user(user_id)
 
     if result.success == True:
-        session['userID'] = result.value.get('userID')
+        response = jsonify(result.getDict())
+        unset_jwt_cookies(response)
 
-    return result.getDict()
+        return response
+
+    else:
+        return jsonify(result.getDict())
 
 
-@user.route('/logout', methods=['GET'])
-def logout():
-    session.clear()
-    # session.pop('userID', None)
+# 아카이브 표시
 
-    return Result(True, 'GoodBye').getDict()
+
+@user.route('/archive', methods=['GET'])
+def id_archive():
+    pass
+
+
+# 아카이브 내용 추가
+@user.route('/archive', methods=['POST'])
+def id_archive_add():
+    pass
+
+
+# 아카이브 내용 삭제
+@user.route('/archive', methods=['DELETE'])
+def id_archive_delete():
+    pass
