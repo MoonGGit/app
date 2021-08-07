@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request
+from flask import Blueprint, render_template
 from .. import TEMPLATE_FORDER_PATH, STATIC_FORDER_PATH
 
 dots_converter = Blueprint('dots_converter', __name__, url_prefix='/dots-converter/',

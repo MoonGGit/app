@@ -508,6 +508,8 @@ ul {
 	left: 1px;
 	visibility: hidden;
 	pointer-events: none;
+	z-index: 1;
+	background: white;
 }
 
 .dotsConverter-Nav {

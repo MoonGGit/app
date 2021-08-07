@@ -2,7 +2,6 @@ import { createElement } from 'react';
 import { ClickCounterProvider } from './ClickCounterContext';
 import { UserContextProvider } from './UserContext';
 
-// contexts: React.Provider<any>[] ts가 허용안함
 const AppProvider =
 	(providers: any[]) =>
 	({ children }: { children: React.ReactNode }) =>

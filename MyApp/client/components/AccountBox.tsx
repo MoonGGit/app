@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useRef } from 'react';
+import { useEffect, useState, useContext, useRef, useCallback } from 'react';
 import bs from './scss/init.scss';
 import cn from 'classnames';
 import { BsPeopleCircle } from 'react-icons/bs';
@@ -6,20 +6,12 @@ import { UserContext, userDispatch } from '../context/UserContext';
 import axios from 'axios';
 import { getCookie } from '../helper/cookie';
 
-// todo : 리팩토링, useFetch를 활용? reducer를 활용?
 const AccountBox = ({ className }: { className: string }) => {
 	const [navBarToggle, setNavBarToggle] = useState(false);
-	const onClickNavBarToggle = () => {
-		setNavBarToggle(!navBarToggle);
-	};
+	const onClickNavBarToggle = () => setNavBarToggle(!navBarToggle);
 
-	// 로그인 창
 	const [loginToggle, setLoginToggle] = useState(true);
-
-	// 등록 창
 	const [registerToggle, setRegisterToggle] = useState(false);
-
-	// 정보 수정 창
 	const [yourAccountToggle, setYourAccountToggle] = useState(false);
 
 	const loginIDRef = useRef<HTMLInputElement>(null);
@@ -43,32 +35,6 @@ const AccountBox = ({ className }: { className: string }) => {
 		}
 	}, [accessToken, userID]);
 
-	// 로그인
-	const onClickLogin = () => {
-		const userID = loginIDRef?.current!.value;
-		const password = loginPasswordRef?.current!.value;
-
-		axios
-			.post('/user', {
-				userID: userID,
-				password: password,
-			})
-			.then(res => {
-				const { success, message, value } = res.data;
-
-				if (success) {
-					const { access_token, user_id } = value;
-					userDispatch({ type: 'LOGIN', value: { accessToken: access_token, userID: user_id } });
-					alert(`Login success : ${message}`);
-				} else {
-					alert(`Login error : ${message}`);
-				}
-			})
-			.catch(err => {
-				alert(`Login error : ${err}`);
-			});
-	};
-
 	// 등록창 열기
 	const onClickSignUp = () => {
 		setLoginToggle(false);
@@ -80,14 +46,51 @@ const AccountBox = ({ className }: { className: string }) => {
 		setYourAccountToggle(true);
 	};
 
+	// 수정창 뒤로
 	const onClickBack = () => {
 		setYourAccountToggle(false);
 	};
 
+	// 로그인
+	const onClickLogin = useCallback(() => {
+		const userID = loginIDRef?.current!.value;
+		const password = loginPasswordRef?.current!.value;
+
+		axios({
+			url: '/user',
+			method: 'POST',
+			data: {
+				userID: userID,
+				password: password,
+			},
+		})
+			.then(res => {
+				const { success, message, value } = res.data;
+
+				if (success) {
+					const { access_token, user_id } = value;
+
+					userDispatch({ type: 'LOGIN', value: { accessToken: access_token, userID: user_id } });
+					alert(`Login success : ${message}`);
+				} else {
+					alert(`Login error : ${message}`);
+				}
+			})
+			.catch(err => {
+				alert(err);
+			});
+	}, []);
+
 	// 로그아웃
-	const onClickLogOut = () => {
-		axios
-			.post('/user/board')
+	const onClickLogOut = useCallback(() => {
+		axios({
+			url: '/user/board',
+			method: 'DELETE',
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+				'X-CSRF-TOKEN': getCookie('csrf_refresh_token'),
+			},
+		})
 			.then(res => {
 				const { success, message } = res.data;
 
@@ -99,23 +102,26 @@ const AccountBox = ({ className }: { className: string }) => {
 				}
 			})
 			.catch(err => {
-				alert(`Logout error : ${err}`);
+				alert(err);
 			});
 
 		setLoginToggle(true);
 		setRegisterToggle(false);
-	};
+	}, [accessToken, userID]);
 
-	// 회원가입처리
-	const onClickRegister = () => {
+	// 회원가입
+	const onClickRegister = useCallback(() => {
 		const userID = registerIDRef?.current!.value;
 		const password = registerPasswordRef?.current!.value;
 
-		axios
-			.post('/user/new', {
+		axios({
+			url: '/user/new',
+			method: 'POST',
+			data: {
 				userID: userID,
 				password: password,
-			})
+			},
+		})
 			.then(res => {
 				const { success, message } = res.data;
 
@@ -126,24 +132,29 @@ const AccountBox = ({ className }: { className: string }) => {
 				}
 			})
 			.catch(err => {
-				alert(`Register error : ${err}`);
+				alert(err);
 			});
 
 		setLoginToggle(true);
 		setRegisterToggle(false);
-	};
+	}, []);
 
-	// 탈퇴 처리
-	const onClickDeactivate = () => {
-		axios
-			.delete('/user/board', {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-					'X-CSRF-TOKEN': getCookie('csrf_refresh_token'),
-				},
-			})
+	// 탈퇴
+	const onClickDeactivate = useCallback(() => {
+		axios({
+			url: '/user/board',
+			method: 'POST',
+			data: {
+				userID: userID,
+			},
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+				'X-CSRF-TOKEN': getCookie('csrf_refresh_token'),
+			},
+		})
 			.then(res => {
 				const { success, message } = res.data;
+
 				if (success) {
 					userDispatch({ type: 'LOGOUT' });
 					setLoginToggle(true);
@@ -154,34 +165,34 @@ const AccountBox = ({ className }: { className: string }) => {
 				}
 			})
 			.catch(err => {
-				alert(`${err}`);
+				alert(err);
 			});
-	};
+	}, [accessToken, userID]);
 
-	const onClickChange = () => {
+	// 비밀번호 변경
+	const onClickChange = useCallback(() => {
 		const newPassword = changePasswordRef?.current!.value;
 
-		axios
-			.put(
-				'/user/board',
-				{
-					newPassword: newPassword,
-					userID: userID,
-				},
-				{
-					headers: {
-						Authorization: `Bearer ${accessToken}`,
-						'X-CSRF-TOKEN': getCookie('csrf_refresh_token'),
-					},
-				},
-			)
+		axios({
+			url: '/user/board',
+			method: 'PATCH',
+			data: {
+				newPassword: newPassword,
+				userID: userID,
+			},
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+				'X-CSRF-TOKEN': getCookie('csrf_refresh_token'),
+			},
+		})
 			.then(res => {
 				const { success, message, value } = res.data;
+
 				if (success) {
 					if (value.access_token) {
 						userDispatch({ type: 'SET_ACCESS_TOKEN', value: { accessToken: value.access_token } });
 					} else {
-						onClickBack();
+						setYourAccountToggle(false);
 					}
 					alert(`Change success : ${message}`);
 				} else {
@@ -189,7 +200,7 @@ const AccountBox = ({ className }: { className: string }) => {
 				}
 			})
 			.catch(err => alert(err));
-	};
+	}, [accessToken, userID]);
 
 	return (
 		<div className={cn(bs['position-absolute'])}>

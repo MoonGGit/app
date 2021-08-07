@@ -3,8 +3,9 @@ from flask.json import jsonify
 from ..services.accessed_ip import get_click_counts, put_visits
 from .. import TEMPLATE_FORDER_PATH, STATIC_FORDER_PATH
 import random
-from ..redis import redis
-from ..services.helper import refresh_token_check, Result
+from ..db.redis import redis
+from ..services.helper import Result
+from ..services.jwt_auth import refresh_token_check
 
 main = Blueprint('main', __name__, url_prefix='/',
                  static_folder=STATIC_FORDER_PATH,
@@ -31,7 +32,7 @@ def init():
     user_id = None
 
     if result is not None and result.success is False:
-        return jsonify(result.getDict())
+        return jsonify(result.get_dict())
 
     elif result is not None and result.success is True:
         access_token = result.value.get('access_token')
@@ -45,4 +46,4 @@ def init():
         if result == 1:
             break
 
-    return jsonify(Result(True, '', {'click_counts': click_counts, 'access_token': access_token, 'visitor_name': visitor_name, 'user_id': user_id}).getDict())
+    return jsonify(Result(True, '', {'click_counts': click_counts, 'access_token': access_token, 'visitor_name': visitor_name, 'user_id': user_id}).get_dict())

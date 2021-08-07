@@ -1,12 +1,11 @@
 from flask import Flask
-from .database import engine
-from .models import Base
-""" from flask_socketio import SocketIO, emit
-from engineio.payload import Payload """
-import os
 from flask_jwt_extended import JWTManager
 from datetime import timedelta
-
+import os
+from .db.database import engine
+from .db.models import Base
+""" from flask_socketio import SocketIO, emit
+from engineio.payload import Payload """
 # from .services.accessed_ip import put_click_counts
 
 
@@ -28,8 +27,8 @@ def create_app():
     ##############################
     #           config           #
     ##############################
-    # app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
     app.config.update(APPLICATION_ROOT="/",
+                      # SECRET_KEY=os.environ['SECRET_KEY']
                       # SESSION_COOKIE_SAMESITE="None",
                       # SESSION_COOKIE_SECURE=False,
                       # SESSION_COOKIE_PATH="/",
@@ -43,7 +42,7 @@ def create_app():
                       JWT_REFRESH_TOKEN_EXPIRES=timedelta(hours=1)
                       )
 
-    jwt = JWTManager(app)
+    JWTManager(app)
 
     @app.before_request
     def before_request():

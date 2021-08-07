@@ -1,8 +1,6 @@
-/* CRUD, PGPD */
 import { useState, useEffect } from 'react';
 import axios, { AxiosResponse } from 'axios';
 
-// 받아온 데이터로 재 렌더링 할 경우 사용
 const useFetch = (url: string) => {
 	const [data, setData] = useState<AxiosResponse<any>>();
 

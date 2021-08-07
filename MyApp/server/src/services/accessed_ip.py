@@ -1,8 +1,7 @@
 from sqlalchemy import null
-from ..database import session_scope
-from ..models import Accessed_Ip
+from ..db.database import session_scope
+from ..db.models import Accessed_Ip
 from datetime import datetime
-
 
 def put_visits(ip):
     with session_scope() as session:

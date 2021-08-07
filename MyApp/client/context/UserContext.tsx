@@ -21,21 +21,25 @@ const reducer = (state: State, action: Action): State => {
 				...state,
 				...action,
 			};
+
 		case 'INIT':
 			return {
 				...state,
 				...action,
 			};
+
 		case 'LOGOUT':
 			return {
 				...state,
 				value: { ...state.value, accessToken: null, userID: null },
 			};
+
 		case 'SET_ACCESS_TOKEN':
 			return {
 				...state,
 				value: { ...state.value, accessToken: action.value?.accessToken! },
 			};
+
 		default:
 			throw new Error('Unhandled action');
 	}

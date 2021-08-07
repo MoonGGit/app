@@ -31,9 +31,8 @@ class User(Base):
     banned = Column(Boolean)
     banned_date = Column(DateTime)
     refresh_token = Column(String(500))
-    refresh_token_ip = Column(String(20))
 
-    def __init__(self, id, password, sign_up_date, ip, banned=False, banned_date=null(), refresh_token=null(), refresh_token_ip=null()):
+    def __init__(self, id, password, sign_up_date, ip, banned=False, banned_date=null(), refresh_token=null()):
         self.id = id
         self.password = password
         self.sign_up_date = sign_up_date
@@ -41,14 +40,14 @@ class User(Base):
         self.banned = banned
         self.banned_date = banned_date
         self.refresh_token = refresh_token
-        self.refresh_token_ip = refresh_token_ip
 
 
 class Image_Path(Base):
     __tablename__ = 'image_path'
     # no = Column(Integer, autoincrement=True, primary_key=True)
     # foreign key때문에 MyISAM 사용 불가
-    fk_user_id = Column(String(15), ForeignKey('user.id'), primary_key=True)
+    fk_user_id = Column(String(15), ForeignKey(
+        'user.id', ondelete='CASCADE'), primary_key=True)
     path = Column(String(100), primary_key=True)
     paths = relation('User', backref=backref('paths'))
 

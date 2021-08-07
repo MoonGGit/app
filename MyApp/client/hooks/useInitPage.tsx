@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useEffect } from 'react';
 import { clickCounterDispatch } from '../context/ClickCounterContext';
 import { userDispatch } from '../context/UserContext';
 import axios from 'axios';
@@ -14,16 +14,16 @@ const useInitPage = () => {
 
 				if (success) {
 					console.log('init received data : ', value);
-
 					const { click_counts, visitor_name, access_token, user_id } = value;
+
 					clickCounterDispatch({ type: 'INIT', value: click_counts });
 					userDispatch({ type: 'INIT', value: { accessToken: access_token, userID: user_id } });
-					global_value.socket_visitorName = visitor_name;
+					global_value.socketVisitorName = visitor_name;
 				} else {
 					alert(message);
 				}
 			})
-			.catch(err => console.log(err));
+			.catch(err => alert(err));
 
 		// const socket = io('/room_click', {
 		// 	transports: ['websocket'],
@@ -35,8 +35,6 @@ const useInitPage = () => {
 		// 	if (visitorName != global_value.socket_visitorName) clickCounterDispatch({ type: 'INCREMENT' });
 		// });
 	}, []);
-
-	return <></>;
 };
 
 export default useInitPage;

@@ -1,6 +1,6 @@
-from sqlalchemy import and_
-from ..models import User
-from ..database import session_scope
+from sqlalchemy import and_, null
+from ..db.models import User
+from ..db.database import session_scope
 from datetime import datetime
 from .helper import Result
 
@@ -41,7 +41,7 @@ def update_user(user_id, new_password):
             return Result(False, 'Database error')
 
 
-def set_refresh_token(user_id, refresh_token, refresh_token_ip):
+def set_refresh_token(user_id, refresh_token):
     with session_scope() as session:
         try:
             user = session.query(User).filter(User.id == user_id).first()
@@ -51,9 +51,25 @@ def set_refresh_token(user_id, refresh_token, refresh_token_ip):
 
             else:
                 user.refresh_token = refresh_token
-                user.refresh_token_ip = refresh_token_ip
 
                 return Result(True,  'Update success')
+
+        except:
+            return Result(False, 'Database error')
+
+
+def delete_refresh_token(user_id):
+    with session_scope() as session:
+        try:
+            user = session.query(User).filter(User.id == user_id).first()
+
+            if user == None:
+                return Result(False, 'Not exist ID')
+
+            else:
+                user.refresh_token = null()
+
+                return Result(True,  'Delete success')
 
         except:
             return Result(False, 'Database error')

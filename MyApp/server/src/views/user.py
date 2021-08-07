@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
-from ..services.user import delete_user, update_user, create_user, login_user, set_refresh_token
-from ..services.helper import Result, token_check
+from ..services.user import delete_user, update_user, create_user, login_user, set_refresh_token, delete_refresh_token
+from ..services.helper import Result
+from ..services.jwt_auth import token_check
 from .. import TEMPLATE_FORDER_PATH, STATIC_FORDER_PATH
 from flask_jwt_extended import create_access_token, create_refresh_token, unset_jwt_cookies, set_refresh_cookies
 
@@ -19,7 +20,7 @@ def new():
     ip = request.headers.getlist("X-Real-IP")[0]
     result = create_user(userID, password, ip)
 
-    return jsonify(result.getDict())
+    return jsonify(result.get_dict())
 
 
 # 로그인
@@ -36,10 +37,10 @@ def login():
         refresh_token = create_refresh_token(
             identity='', additional_claims={'refresh_token_ip': ip})
         set_refresh_token_result = set_refresh_token(
-            login_user_result.value.get('user_id'), refresh_token, ip)
+            login_user_result.value.get('user_id'), refresh_token)
 
         if set_refresh_token_result.success is True:
-            response_dict = login_user_result.getDict()
+            response_dict = login_user_result.get_dict()
             response_dict['value'].update({'access_token': access_token})
             response = jsonify(response_dict)
             set_refresh_cookies(response, refresh_token)
@@ -47,23 +48,25 @@ def login():
             return response
 
         else:
-            return jsonify(set_refresh_token_result.getDict())
+            return jsonify(set_refresh_token_result.get_dict())
 
     else:
-        return jsonify(login_user_result.getDict())
+        return jsonify(login_user_result.get_dict())
 
 
 # 로그아웃
-@user.route('/board', methods=['POST'])
-def logout():
-    response = jsonify(Result(True, 'GoodBye').getDict())
-    # todo : db 토큰도 삭제
+@user.route('/board', methods=['DELETE'])
+@token_check
+def logout(user_id, access_token):
+    delete_refresh_token(user_id)
+    response = jsonify(Result(True, 'GoodBye').get_dict())
     unset_jwt_cookies(response)
+
     return response
 
 
 # 계정 정보 변경
-@user.route('/board', methods=['PUT'])
+@user.route('/board', methods=['PATCH'])
 @token_check
 def id_update(user_id, access_token):
     if user_id is request.json['userID']:
@@ -71,7 +74,7 @@ def id_update(user_id, access_token):
         result = update_user(user_id, new_password)
 
         if result.success is True:
-            response = result.getDict()
+            response = result.get_dict()
 
             if access_token is not None:
                 response['value'].update({'access_token': access_token})
@@ -79,31 +82,33 @@ def id_update(user_id, access_token):
             return jsonify(response)
 
         else:
-            return jsonify(result.getDict())
+            return jsonify(result.get_dict())
 
     else:
-        return jsonify(Result(False, 'Invalide token, Retry Login').getDict())
+        return jsonify(Result(False, 'Invalide token, Retry Login').get_dict())
 
 
 # 계정 정보 삭제
-@user.route('/board', methods=['DELETE'])
+@user.route('/board', methods=['POST'])
 @token_check
-def id_delete(user_id, access_token=None):
-    result = delete_user(user_id)
+def id_delete(user_id, access_token):
+    if user_id is request.json['userID']:
+        result = delete_user(user_id)
 
-    if result.success == True:
-        response = jsonify(result.getDict())
-        unset_jwt_cookies(response)
+        if result.success == True:
+            response = jsonify(result.get_dict())
+            unset_jwt_cookies(response)
 
-        return response
+            return response
+
+        else:
+            return jsonify(result.get_dict())
 
     else:
-        return jsonify(result.getDict())
+        return jsonify(Result(False, 'Invalide token, Retry Login').get_dict())
 
 
 # 아카이브 표시
-
-
 @user.route('/archive', methods=['GET'])
 def id_archive():
     pass

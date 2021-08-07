@@ -39,15 +39,16 @@ const Header = () => {
 			header.classList.remove(bs['header']);
 
 			// set font color, black or white on path '/'
-			if (location.pathname == '/') header.classList.add(bs['headerColor']);
-			else header.classList.remove(bs['headerColor']);
+			// if (location.pathname == '/')
+			header.classList.add(bs['headerColor']);
+			// else header.classList.remove(bs['headerColor']);
 		} else {
 			// when scroll to bottom
 			// add 'backdrop-filter'
 			header.classList.add(bs['header']);
 
 			// set font color 'black' with scrollY on path '/'
-			if (location.pathname == '/' && window.scrollY > window.innerHeight) {
+			if (/* location.pathname == '/' && */ window.scrollY > window.innerHeight) {
 				header.classList.remove(bs['headerColor']);
 			}
 		}

@@ -55,9 +55,6 @@ const ClickEffect = () => {
 		let x = event.clientX;
 		let y = event.clientY;
 
-		// todo-check
-		// setGarbageCollection([...garbageCollection, EffectElement]); 안됨
-		// 컴포넌트 콜백과 리스너 콜백의 지역변수 저장 유무... 차이?
 		setGarbageCollection(p => {
 			const EffectElement = <Effect x={x} y={y} key={p.length} />;
 
