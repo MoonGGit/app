@@ -3,15 +3,47 @@ import FileDragAndDrop from './FileDragAndDrop';
 import bs from './scss/init.scss';
 import { AiOutlineDownload } from 'react-icons/ai';
 import { RiKakaoTalkFill } from 'react-icons/ri';
+import useScript from '../hooks/useScript';
+import { globalValue, dataURLtoFile } from '../helper/init';
 
-const DotsConverter = ({ className }: { className: string }) => {
-	const [imageFile, setImageFile] = useState<Blob | any>(null);
-	const [dotsImageData, setDotsImageData] = useState<String | null>(null);
+const DotsConverter = () => {
+	const [imageFile, setImageFile] = useState<File | any>(null);
+	const [dotsImageData, setDotsImageData] = useState<string | null>(null);
 
 	const imageRef = useRef<HTMLImageElement>(null);
 	const imageSizeRef = useRef<HTMLSelectElement>(null);
 	const dotsSizeRef = useRef<HTMLInputElement>(null);
 	const dotsAccurancy = useRef<HTMLInputElement>(null);
+
+	useScript('https://developers.kakao.com/sdk/js/kakao.min.js', true, () => {
+		globalValue.Kakao = window.Kakao;
+		globalValue.Kakao.init('5d70b9d2ccbc01b4a91e1dd980df65fb');
+	});
+
+	const onClickKakaoShare = useCallback(() => {
+		if (globalValue.Kakao.isInitialized() && dotsImageData) {
+			globalValue.Kakao.Link.uploadImage({
+				file: [dataURLtoFile(dotsImageData, 'dots.' + imageFile!.name)],
+			})
+				.then((res: any) => {
+					globalValue.Kakao.Link.sendDefault({
+						objectType: 'feed',
+						content: {
+							title: '',
+							imageUrl: res.infos.original.url,
+							description: res.infos.original.url,
+							link: {
+								mobileWebUrl: '',
+								webUrl: '',
+							},
+						},
+					});
+				})
+				.catch((err: any) => alert(err));
+		} else {
+			alert('이미지를 변환해 주세요.');
+		}
+	}, [dotsImageData]);
 
 	// FileDragAndDrop컴포넌트의 input값 변경 시, 타입체크 후 이미지 미리보기
 	const onChangeFiles = useCallback((event: ChangeEvent<HTMLInputElement> | any): void => {
@@ -44,13 +76,7 @@ const DotsConverter = ({ className }: { className: string }) => {
 	// 변환 작업
 	// todo : 공백 png는 해당 블럭 에러, 화살표보임
 	const handleConvert = useCallback(async () => {
-		if (
-			imageFile !== null &&
-			imageSizeRef.current !== null &&
-			dotsSizeRef.current !== null &&
-			dotsAccurancy.current !== null &&
-			imageRef.current !== null
-		) {
+		if (imageFile && imageSizeRef.current && dotsSizeRef.current && dotsAccurancy.current && imageRef.current) {
 			const imageSize = imageSizeRef.current.value;
 			const dotsSize = parseInt(dotsSizeRef.current.value);
 			const accurancy = parseInt(dotsAccurancy.current.value);
@@ -120,6 +146,7 @@ const DotsConverter = ({ className }: { className: string }) => {
 								console.log(x, y, width, height);
 							}
 						}
+						// base64ImageData
 						const convertedImageData = canvas.toDataURL();
 						imageRef.current!.src = convertedImageData;
 						setDotsImageData(convertedImageData);
@@ -129,7 +156,7 @@ const DotsConverter = ({ className }: { className: string }) => {
 						img.src = base64ImageData as string;
 					}
 				};
-				reader.readAsDataURL(imageFile as Blob);
+				reader.readAsDataURL(imageFile);
 			} catch (err) {
 				alert('변환에 실패했습니다..' + err);
 			}
@@ -163,7 +190,7 @@ const DotsConverter = ({ className }: { className: string }) => {
 				<div className={bs['dotsConverter-Nav']}>
 					<button>
 						<span>
-							<RiKakaoTalkFill />
+							<RiKakaoTalkFill onClick={onClickKakaoShare} />
 						</span>
 					</button>
 					<button onClick={handleDownload}>

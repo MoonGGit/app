@@ -4,7 +4,6 @@ import bs from './scss/init.scss';
 import { clickCounterDispatch } from '../context/ClickCounterContext';
 import axios from 'axios';
 // import io from 'socket.io-client';
-import global_value from '../helper/variables';
 
 const effectList = [TiStar, TiStarOutline];
 // const socket = io('/room_click');

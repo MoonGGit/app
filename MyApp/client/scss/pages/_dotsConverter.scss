@@ -1,0 +1,41 @@
+.p-dots-background-wrapper {
+	overflow: hidden;
+	pointer-events: none;
+	width: 100%;
+	clip-path: inset(0);
+
+	.p-dots-background-inner {
+		display: flex;
+		position: fixed;
+		height: 100%;
+
+		& > img {
+			width: 100vw;
+			height: 100%;
+		}
+
+		animation-name: p_dots_background_leaves;
+		animation-duration: 3s;
+		animation-iteration-count: infinite;
+		animation-timing-function: step-start;
+		@keyframes p_dots_background_leaves {
+			0%,
+			100% {
+				transform: translateX(0vw);
+			}
+			25% {
+				transform: translateX(-100vw);
+			}
+			50% {
+				transform: translateX(-200vw);
+			}
+			75% {
+				transform: translateX(-300vw);
+			}
+		}
+	}
+}
+
+.p-dots-title {
+	margin-left: 10vw;
+}

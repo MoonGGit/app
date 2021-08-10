@@ -1,9 +1,11 @@
 interface type {
 	socketVisitorName: String | null;
+	Kakao: any;
 }
 
-const global_value: type = {
+const globalValue: type = {
 	socketVisitorName: null,
+	Kakao: null,
 };
 
-export default global_value;
+export default globalValue;

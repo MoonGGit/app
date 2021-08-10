@@ -15,14 +15,13 @@ main = Blueprint('main', __name__, url_prefix='/',
 @main.route('/', defaults={'path': ''})
 @main.route('/<path:path>')
 def index(path):
-    ip = request.headers.getlist("X-Real-IP")[0]
-    put_visits(ip)
-
     return render_template('index.html')
 
 
 @main.route('/init', methods=['GET'])
 def init():
+    put_visits(request.headers.getlist("X-Real-IP")[0])
+
     try:
         result = refresh_token_check()
     except:

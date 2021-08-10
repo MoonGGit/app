@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import DivisionLine from '../components/DivisionLine';
 import DotsConverterMain from '../components/DotsConverter';
-import bs from '../components/scss/init.scss';
+import styles from '../scss/app.scss';
 import Leaves1 from '../assets/images/leaves1.png';
 import Leaves2 from '../assets/images/leaves2.png';
 import Leaves3 from '../assets/images/leaves3.png';
@@ -16,8 +16,8 @@ const DotsConverter = () => {
 
 	return (
 		<section>
-			<div className={bs['dots-background-wrapper']} style={{ height: window.innerHeight }}>
-				<div ref={backgroundRef} className={bs['dots-background']}>
+			<div className={styles['p-dots-background-wrapper']} style={{ height: window.innerHeight }}>
+				<div ref={backgroundRef} className={styles['p-dots-background-inner']}>
 					<img src={Leaves1} alt="" />
 					<img src={Leaves2} alt="" />
 					<img src={Leaves3} alt="" />
@@ -25,8 +25,8 @@ const DotsConverter = () => {
 				</div>
 			</div>
 			<DivisionLine />
-			<h1 style={{ marginLeft: '10vw' }}>CONVERT! MAKE DOTS! </h1>
-			<DotsConverterMain className={''} />
+			<h1 className={styles['p-dots-title']}>CONVERT! MAKE DOTS! </h1>
+			<DotsConverterMain />
 			<DivisionLine />
 			<div style={{ height: '500px' }} />
 		</section>

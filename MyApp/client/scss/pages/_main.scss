@@ -1,0 +1,198 @@
+.p-main-background-wrapper {
+	overflow: hidden;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.p-main-background-inner {
+		// 메인 배경
+		@keyframes p_main_background_inner_scale {
+			0%,
+			100% {
+				transform: scale(1);
+			}
+			50% {
+				transform: scale(1.1);
+			}
+		}
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		background: radial-gradient(ellipse at left, #171010 0%, black 100%);
+		overflow: hidden;
+		animation-name: p_main_background_inner_scale;
+		animation-duration: 40s;
+		animation-timing-function: linear;
+		animation-iteration-count: infinite;
+
+		// 별 중심
+		& > span {
+			position: absolute;
+			width: 4px;
+			height: 4px;
+			background: white;
+			border-radius: 50%;
+			transform: rotate(320deg);
+			opacity: 0;
+			animation-name: p_main_star_shooting;
+
+			// 별 중심 십자 빛 - 가로
+			&::before {
+				content: '';
+				position: absolute;
+				transform: translate(calc(-50% + 2px), 50%) rotateZ(40deg);
+				height: 2px;
+				border-radius: 100%;
+				background: linear-gradient(40deg, black, #7f7f7f, black);
+				animation-name: p_main_star_shining;
+			}
+
+			// 별 중심 십자 빛 - 세로
+			&::after {
+				content: '';
+				position: absolute;
+				transform: translate(calc(-50% + 2px), 50%) rotateZ(-50deg);
+				height: 2px;
+				border-radius: 100%;
+				background: linear-gradient(40deg, black, #7f7f7f, black);
+				animation-name: p_main_star_shining;
+			}
+
+			// 별 꼬리
+			& > span {
+				content: '';
+				position: absolute;
+				top: 50%;
+				height: 1px;
+				background: linear-gradient(90deg, #fff, transparent);
+				animation-name: p_main_star_tail;
+			}
+
+			// 별 꼬리
+			@keyframes p_main_star_tail {
+				0%,
+				100% {
+					width: 0;
+				}
+				80% {
+					width: 100px;
+				}
+			}
+
+			// 별 십자 반짝임
+			@keyframes p_main_star_shining {
+				0%,
+				100% {
+					width: 0;
+				}
+				80% {
+					width: 30px;
+				}
+			}
+
+			// 별 이동, 투명도
+			@keyframes p_main_star_shooting {
+				0% {
+					transform: rotate(320deg) translateX(0);
+				}
+				80% {
+					transform: rotate(320deg) translateX(-600px);
+					box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 0 8px rgba(255, 255, 255, 0.1);
+					opacity: 1;
+				}
+				100% {
+					transform: rotate(320deg) translateX(-650px);
+					opacity: 0;
+					box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+				}
+			}
+
+			// 랜덤 생성 - 위치, 딜레이, 지속기간
+			@for $i from 1 through 10 {
+				&:nth-child(#{$i}) {
+					$delay: random(10) + 0s;
+					$duration: random(7) + 3s;
+					top: calc(#{random(60)}% - 10%);
+					right: calc(#{random(65)}% - 10%);
+					animation-delay: $delay;
+					animation-duration: $duration;
+					animation-timing-function: linear;
+					animation-iteration-count: infinite;
+
+					&::before,
+					&::after {
+						animation-delay: $delay;
+						animation-duration: $duration;
+						animation-timing-function: linear;
+						animation-iteration-count: infinite;
+					}
+
+					& > span {
+						animation-delay: $delay;
+						animation-duration: $duration;
+						animation-timing-function: linear;
+						animation-iteration-count: infinite;
+					}
+				}
+			}
+		}
+
+		.p-main-img-moon {
+			@keyframes p_main_img_moong_fade_in {
+				to {
+					opacity: 1;
+				}
+			}
+			position: absolute;
+			z-index: -1;
+			opacity: 0;
+			transform: rotate(27deg);
+			animation-delay: 1s;
+			animation-name: p_main_img_moong_fade_in;
+			animation-duration: 2.5s;
+			animation-timing-function: ease;
+			animation-fill-mode: both;
+			@include lt-md {
+				width: 70px;
+				right: 40px;
+				bottom: 200px;
+			}
+			@include gt-md {
+				width: 100px;
+				right: 200px;
+				bottom: 200px;
+			}
+		}
+	}
+
+	.p-main-phrase {
+		@keyframes p_main_phrase {
+			to {
+				opacity: 1;
+			}
+		}
+		opacity: 0;
+		animation-name: p_main_phrase;
+		animation-fill-mode: both;
+		animation-duration: 3s;
+		animation-delay: 4s;
+		@include lt-md {
+			font-size: 16px;
+		}
+		@include gt-md {
+			font-size: 40px;
+		}
+	}
+}
+
+.p-main-pagecard-list {
+	@include lt-md {
+		margin: 5px;
+		margin-top: 70px;
+	}
+	@include gt-md {
+		margin: 100px;
+	}
+}

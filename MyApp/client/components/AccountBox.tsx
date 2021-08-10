@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { BsPeopleCircle } from 'react-icons/bs';
 import { UserContext, userDispatch } from '../context/UserContext';
 import axios from 'axios';
-import { getCookie } from '../helper/cookie';
+import { getCookie } from '../helper/init';
 
 const AccountBox = ({ className }: { className: string }) => {
 	const [navBarToggle, setNavBarToggle] = useState(false);

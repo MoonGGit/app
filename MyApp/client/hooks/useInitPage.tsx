@@ -3,7 +3,7 @@ import { clickCounterDispatch } from '../context/ClickCounterContext';
 import { userDispatch } from '../context/UserContext';
 import axios from 'axios';
 // import io from 'socket.io-client';
-import global_value from '../helper/variables';
+import { globalValue } from '../helper/init';
 
 const useInitPage = () => {
 	useEffect(() => {
@@ -18,7 +18,7 @@ const useInitPage = () => {
 
 					clickCounterDispatch({ type: 'INIT', value: click_counts });
 					userDispatch({ type: 'INIT', value: { accessToken: access_token, userID: user_id } });
-					global_value.socketVisitorName = visitor_name;
+					globalValue.socketVisitorName = visitor_name;
 				} else {
 					alert(message);
 				}
