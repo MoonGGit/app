@@ -1,0 +1,76 @@
+.c-account-signIn {
+	background: $grey-dark;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	color: $grey;
+
+	@include lt-md {
+		width: 250px;
+	}
+
+	@include gt-md {
+		width: 300px;
+	}
+
+	div {
+		margin-top: 15px;
+	}
+
+	span {
+		display: inline-block;
+		margin-bottom: 5px;
+	}
+
+	input,
+	button {
+		width: 100%;
+		color: white;
+		border: 1.5px solid grey;
+		border-radius: 4px;
+		outline: none;
+		height: 28px;
+
+		&:focus,
+		&:hover {
+			border: 2px solid cornflowerblue;
+		}
+	}
+
+	input {
+		background-color: $blue-black;
+		padding-left: 10px;
+	}
+
+	.c-account-signIn-btn {
+		background-color: $green-dark;
+	}
+
+	.c-account-signIn-btn-create {
+		background-color: $black;
+	}
+
+	.c-account-signIn-other {
+		margin-top: 30px;
+
+		button {
+			background-color: white;
+			color: black;
+
+			& > span {
+				vertical-align: middle;
+
+				& > svg {
+					vertical-align: middle;
+					margin-right: 10px;
+				}
+			}
+		}
+	}
+}
+
+.c-account-modal-header {
+	background: $grey-dark !important;
+	color: $grey !important;
+	border-bottom: 1px solid grey !important;
+}

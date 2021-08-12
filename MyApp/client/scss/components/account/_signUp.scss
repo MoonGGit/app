@@ -1,0 +1,91 @@
+.c-account-signUp {
+	background: $grey-dark;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	color: $grey;
+
+	@include lt-md {
+		width: 250px;
+	}
+
+	@include gt-md {
+		width: 300px;
+	}
+
+	div {
+		margin-top: 15px;
+	}
+
+	span {
+		display: inline-block;
+		margin-bottom: 5px;
+	}
+
+	input,
+	button {
+		width: 100%;
+		color: white;
+		border: 1.5px solid grey;
+		border-radius: 4px;
+		outline: none;
+		height: 25px;
+
+		&:focus,
+		&:hover {
+			border: 2px solid cornflowerblue;
+		}
+	}
+
+	input {
+		background-color: $blue-black;
+		padding-left: 10px;
+	}
+
+	.c-account-signUp-btn-create {
+		background-color: $green-dark;
+		position: relative;
+		top: -18px;
+	}
+
+	.c-account-signUp-g-recaptcha {
+		transform-origin: 0 0;
+		@include lt-md {
+			transform: scale(0.695);
+		}
+
+		@include gt-md {
+			transform: scale(0.86);
+		}
+	}
+
+	.c-account-signUp-other {
+		button {
+			background-color: white;
+			color: black;
+
+			& > span {
+				vertical-align: middle;
+
+				& > svg {
+					vertical-align: middle;
+					margin-right: 10px;
+				}
+			}
+		}
+	}
+
+	& > div:last-child {
+		margin-top: 30px;
+		display: inline-flex;
+		justify-content: flex-end;
+
+		span {
+			margin-right: 5px;
+			margin-left: 5px;
+			font-weight: 800;
+			text-decoration: underline;
+			cursor: pointer;
+		}
+	}
+}

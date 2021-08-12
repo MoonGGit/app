@@ -1,0 +1,40 @@
+.c-loading-success {
+	$c-loading-success-size: 100px;
+
+	position: relative;
+	width: $c-loading-success-size;
+	height: $c-loading-success-size;
+	overflow: hidden;
+	border: none;
+	border-radius: 10%;
+
+	& > div {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		background: #707070;
+	}
+
+	& > div:nth-child(1) {
+		font-size: $c-loading-success-size / 1.5;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #7fffd4d4;
+	}
+
+	& > div:nth-child(2) {
+		animation-name: c_loading_success;
+		animation-duration: 1.5s;
+		animation-timing-function: ease;
+		animation-fill-mode: both;
+
+		@keyframes c_loading_success {
+			100% {
+				transform: translateX(100%);
+			}
+		}
+	}
+}

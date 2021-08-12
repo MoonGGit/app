@@ -5,6 +5,9 @@ import { AiOutlineDownload } from 'react-icons/ai';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import useScript from '../hooks/useScript';
 import { globalValue, dataURLtoFile } from '../helper/init';
+import ModalWrapper from './util/ModalWrapper';
+import ModalUpload from './util/ModalUpload';
+import axios from 'axios';
 
 const DotsConverter = () => {
 	const [imageFile, setImageFile] = useState<File | any>(null);
@@ -14,6 +17,28 @@ const DotsConverter = () => {
 	const imageSizeRef = useRef<HTMLSelectElement>(null);
 	const dotsSizeRef = useRef<HTMLInputElement>(null);
 	const dotsAccurancy = useRef<HTMLInputElement>(null);
+
+	const [isVisible, setIsVisible] = useState(false);
+	const handleOpenModal = useCallback(() => {
+		setIsVisible(true);
+	}, []);
+	const handleCloseModal = useCallback(() => {
+		setIsVisible(false);
+	}, []);
+
+	const [isUpload, setIsUpload] = useState(false);
+	const handleOnUpload = useCallback(() => {
+		setIsUpload(true);
+	}, []);
+	const handleCloseUpload = useCallback(() => {
+		setIsUpload(false);
+	}, []);
+	const handleUploadCallBack = () => {
+		return axios({
+			url: '/test',
+			method: 'GET',
+		});
+	};
 
 	useScript('https://developers.kakao.com/sdk/js/kakao.min.js', true, () => {
 		globalValue.Kakao = window.Kakao;
@@ -189,6 +214,21 @@ const DotsConverter = () => {
 				{/* 버튼래퍼 */}
 				<div className={bs['dotsConverter-Nav']}>
 					<button>
+						<span>
+							<div onClick={handleOpenModal}>modal test</div>
+							<ModalWrapper handleCloseModal={handleCloseModal} isVisible={isVisible}>
+								<div
+									style={{
+										width: '200px',
+										height: '200px',
+									}}
+								>
+									test
+								</div>
+							</ModalWrapper>
+							<div onClick={handleOnUpload}>업로드 모달 테스트</div>
+							{isUpload ? <ModalUpload callBack={handleUploadCallBack} handleCloseModal={handleCloseUpload} /> : null}
+						</span>
 						<span>
 							<RiKakaoTalkFill onClick={onClickKakaoShare} />
 						</span>

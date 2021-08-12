@@ -1,0 +1,27 @@
+.c-loading {
+	display: flex;
+
+	& > div {
+		width: 25px;
+		height: 25px;
+		background-color: rgb(167, 228, 151);
+		border-radius: 50%;
+		margin: 10px;
+	}
+
+	@for $i from 1 through 3 {
+		& > div:nth-child(#{$i}) {
+			animation-delay: 0s;
+			animation-duration: 1.5s;
+			animation-timing-function: ease-in-out;
+			animation-iteration-count: infinite;
+			animation-name: c_loading_ + $i;
+
+			@keyframes c_loading_#{$i} {
+				#{$i*20%} {
+					transform: translateY(-40px);
+				}
+			}
+		}
+	}
+}
