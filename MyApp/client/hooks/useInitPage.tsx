@@ -14,10 +14,10 @@ const useInitPage = () => {
 
 				if (success) {
 					console.log('init received data : ', value);
-					const { click_counts, visitor_name, access_token, user_id } = value;
+					const { click_counts, visitor_name, access_token, user_id, oauth, nickname } = value;
 
 					clickCounterDispatch({ type: 'INIT', value: click_counts });
-					userDispatch({ type: 'INIT', value: { accessToken: access_token, userID: user_id } });
+					userDispatch({ type: 'INIT', value: { accessToken: access_token, userID: user_id, oauth: oauth, nickname: nickname } });
 					globalValue.socketVisitorName = visitor_name;
 				} else {
 					alert(message);

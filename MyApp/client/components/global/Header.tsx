@@ -1,20 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import cn from 'classnames';
-import bs from './scss/init.scss';
 import HeaderNavBar from './HeaderNavBar';
-import useScroll from '../hooks/useScroll';
-
-const headerBackgroundStyle: React.CSSProperties = {
-	width: '100%',
-	height: '100%',
-	position: 'absolute',
-	backgroundColor: 'rgb(253, 253, 253)',
-	top: '0',
-	left: '0',
-	pointerEvents: 'none',
-	zIndex: -1,
-};
+import useScroll from '../../hooks/useScroll';
+import styles from '../../scss/app.scss';
 
 // todo-update : 로고
 const Header = () => {
@@ -36,20 +24,20 @@ const Header = () => {
 		// when scroll to top
 		if (opacity < 0.1) {
 			// remove 'backdrop-filter'
-			header.classList.remove(bs['header']);
+			header.classList.remove(styles['c-global-header-toggle-filter']);
 
 			// set font color, black or white on path '/'
 			// if (location.pathname == '/')
-			header.classList.add(bs['headerColor']);
+			header.classList.add(styles['c-global-header-toggle-color']);
 			// else header.classList.remove(bs['headerColor']);
 		} else {
 			// when scroll to bottom
 			// add 'backdrop-filter'
-			header.classList.add(bs['header']);
+			header.classList.add(styles['c-global-header-toggle-filter']);
 
 			// set font color 'black' with scrollY on path '/'
 			if (/* location.pathname == '/' && */ window.scrollY > window.innerHeight) {
-				header.classList.remove(bs['headerColor']);
+				header.classList.remove(styles['c-global-header-toggle-color']);
 			}
 		}
 
@@ -64,26 +52,9 @@ const Header = () => {
 	}, [scrollY, location]);
 
 	return (
-		<header
-			ref={headerRef}
-			className={cn(
-				bs['d-flex'],
-				bs['border-bottom'],
-				bs['border-1'],
-				bs['p-1'],
-				bs['ps-4'],
-				bs['p-md-4'],
-				bs['ps-md-9'],
-				bs['pe-md-9'],
-				bs['position-fixed'],
-				bs['w-100'],
-				bs['align-items-center'],
-				bs['z-999'],
-				bs['header'],
-			)}
-		>
-			<div ref={headerBackgroundRef} style={headerBackgroundStyle} />
-			<Link to="/" className={cn(bs['me-auto'], bs['fs-4'])}>
+		<header ref={headerRef} className={styles['c-global-header']}>
+			<div ref={headerBackgroundRef} className={styles['c-global-header-background']} />
+			<Link to="/" className={styles['c-global-header-logo']}>
 				MG DIY
 			</Link>
 			<HeaderNavBar />

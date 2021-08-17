@@ -178,6 +178,8 @@
 		animation-fill-mode: both;
 		animation-duration: 3s;
 		animation-delay: 4s;
+		color: $grey-dark;
+
 		@include lt-md {
 			font-size: 16px;
 		}
@@ -193,6 +195,6 @@
 		margin-top: 70px;
 	}
 	@include gt-md {
-		margin: 100px;
+		padding: 12%;
 	}
 }

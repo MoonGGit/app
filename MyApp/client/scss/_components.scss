@@ -1,16 +1,12 @@
-// Components
-@import 'components/accountBox';
-@import 'components/clickCounter';
-@import 'components/clickEffect';
-@import 'components/divisionLine';
-@import 'components/dotsConverter';
-@import 'components/fileDragAndDrop';
-@import 'components/fixedTopButton';
-@import 'components/footer';
-@import 'components/header';
-@import 'components/headerNavBar';
-@import 'components/pageCard';
-@import 'components/pageCardList';
+// components
+
+// page/main
+@import 'components/page/main/pageCard';
+@import 'components/page/main/pageCardList';
+
+// page/dots
+@import 'components/page/dots/dotsConverter';
+@import 'components/page/dots/fileDragAndDrop';
 
 // loading
 @import 'components/loading/loading';
@@ -24,3 +20,13 @@
 
 // util
 @import 'components/util/modalWapper';
+@import 'components/util/divisionLine';
+
+// global
+@import 'components/global/fixedTopButton';
+@import 'components/global/footer';
+@import 'components/global/header';
+@import 'components/global/headerNavBar';
+@import 'components/global/accountBox';
+@import 'components/global/clickCounter';
+@import 'components/global/clickEffect';

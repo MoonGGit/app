@@ -1,0 +1,12 @@
+.c-util-divisionLine {
+	border-bottom: 1px solid #e7e7e7;
+	filter: drop-shadow(0px 1px 2px $grey);
+
+	@include lt-md {
+		margin: 1rem;
+	}
+
+	@include gt-md {
+		margin: 3rem;
+	}
+}

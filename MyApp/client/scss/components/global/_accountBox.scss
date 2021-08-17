@@ -1,0 +1,108 @@
+.c-global-accountBox {
+	position: absolute;
+	text-align: center;
+
+	& > button {
+		background-color: unset;
+		border: none;
+		display: block;
+	}
+
+	// HeaderNavBar
+	@mixin navBarToggle {
+		@keyframes navBarToggle {
+			from {
+				top: 25px;
+				opacity: 0.2;
+			}
+			to {
+				top: 42px;
+				opacity: 1;
+			}
+		}
+		background-color: rgb(255, 255, 255);
+		border: 1px solid rgb(128, 128, 128, 0.3);
+		border-radius: 4px;
+		font-weight: bold;
+		font-size: 15px !important;
+		animation-name: navBarToggle;
+		animation-duration: 1s;
+		top: 42px;
+
+		li {
+			height: 40px;
+			display: flex;
+			justify-content: center;
+			&:not(&:last-child) {
+				border-bottom: 1px solid rgb(128, 128, 128, 0.3);
+			}
+			& > * {
+				color: black !important;
+			}
+		}
+	}
+
+	.c-global-accountBox-toggle {
+		border: 2px solid $grey;
+		position: absolute;
+		visibility: hidden;
+		overflow: hidden;
+	}
+
+	.c-global-accountBox-toggle-parent-invisible {
+		@include lt-md {
+			visibility: hidden !important;
+		}
+	}
+	.c-global-accountBox-toggle-visible {
+		@include navBarToggle;
+		visibility: visible;
+		right: -28px;
+		width: 302px;
+		height: 180px;
+
+		@keyframes loginBox {
+			from {
+				transform: translateX(300px);
+			}
+			to {
+				transform: translateX(0px);
+			}
+		}
+		& > div {
+			animation-name: loginBox;
+			animation-duration: 1s;
+			animation-timing-function: ease;
+			animation-fill-mode: both;
+			width: 300px;
+			height: 180px;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-evenly;
+			padding-right: 5px;
+			padding-left: 5px;
+
+			& > input {
+				font-size: 14px;
+				font-weight: bold;
+
+				border-radius: 5px;
+				border: 2px solid #777171;
+				box-sizing: border-box;
+				border-color: #999999;
+				color: black !important;
+			}
+
+			& > button {
+				border: none;
+				border-radius: 5px;
+				font-weight: bold;
+				font-size: 13px;
+				border: 1px solid black;
+				background: black;
+				color: lightgrey;
+				opacity: 0.7;
+			}
+		}
+	}
+}

@@ -1,10 +1,12 @@
 import { useReducer, createContext, useMemo } from 'react';
 
 interface Action {
-	type: 'LOGIN' | 'INIT' | 'LOGOUT' | 'SET_ACCESS_TOKEN' | null;
+	type: 'LOGIN' | 'INIT' | 'LOGOUT' | 'SET_ACCESS_TOKEN' | 'ERROR' | null;
 	value?: {
 		accessToken: string | null;
 		userID?: string | null;
+		nickname?: string | null;
+		oauth?: 'GOOGLE' | null;
 	};
 }
 
@@ -31,7 +33,7 @@ const reducer = (state: State, action: Action): State => {
 		case 'LOGOUT':
 			return {
 				...state,
-				value: { ...state.value, accessToken: null, userID: null },
+				value: { ...state.value, accessToken: null, userID: null, nickname: null, oauth: null },
 			};
 
 		case 'SET_ACCESS_TOKEN':
@@ -50,7 +52,7 @@ let userDispatch: React.Dispatch<Action>;
 
 const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
 	const initState: State = useMemo(() => {
-		return { type: null, value: { accessToken: null, userID: null }, error: false };
+		return { type: null, value: { accessToken: null, userID: null, nickname: null, oauth: null }, error: false };
 	}, []);
 
 	const [state, dispatch] = useReducer(reducer, initState);

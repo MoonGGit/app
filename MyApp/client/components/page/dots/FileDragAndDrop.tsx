@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useCallback, useRef, useState, useEffect } from 'react';
-import bs from './scss/init.scss';
+import styles from '../../../scss//app.scss';
 
 const FileDragAndDrop = ({ onChange }: { onChange: (event: ChangeEvent<HTMLInputElement>) => void }) => {
 	const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -8,18 +8,18 @@ const FileDragAndDrop = ({ onChange }: { onChange: (event: ChangeEvent<HTMLInput
 	const inputRef = useRef<HTMLInputElement>(null);
 	const dragRef = useRef<HTMLLabelElement>(null);
 
-	const handleDragIn = useCallback((e: DragEvent): void => {
+	const onDragEnter = useCallback((e: DragEvent): void => {
 		e.preventDefault();
 		e.stopPropagation();
 	}, []);
 
-	const handleDragOut = useCallback((e: DragEvent): void => {
+	const onDragLeave = useCallback((e: DragEvent): void => {
 		e.preventDefault();
 		e.stopPropagation();
 		setIsDragging(false);
 	}, []);
 
-	const handleDragOver = useCallback((e: DragEvent): void => {
+	const onDragOver = useCallback((e: DragEvent): void => {
 		e.preventDefault();
 		e.stopPropagation();
 
@@ -28,7 +28,7 @@ const FileDragAndDrop = ({ onChange }: { onChange: (event: ChangeEvent<HTMLInput
 		}
 	}, []);
 
-	const handleDrop = useCallback((e: DragEvent | any): void => {
+	const onDrop = useCallback((e: DragEvent | any): void => {
 		e.preventDefault();
 		e.stopPropagation();
 
@@ -53,21 +53,21 @@ const FileDragAndDrop = ({ onChange }: { onChange: (event: ChangeEvent<HTMLInput
 
 	const initDragEvents = useCallback((): void => {
 		if (dragRef.current !== null) {
-			dragRef.current.addEventListener('dragenter', handleDragIn);
-			dragRef.current.addEventListener('dragleave', handleDragOut);
-			dragRef.current.addEventListener('dragover', handleDragOver);
-			dragRef.current.addEventListener('drop', handleDrop);
+			dragRef.current.addEventListener('dragenter', onDragEnter);
+			dragRef.current.addEventListener('dragleave', onDragLeave);
+			dragRef.current.addEventListener('dragover', onDragOver);
+			dragRef.current.addEventListener('drop', onDrop);
 		}
-	}, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
+	}, [onDragEnter, onDragLeave, onDragOver, onDrop]);
 
 	const resetDragEvents = useCallback((): void => {
 		if (dragRef.current !== null) {
-			dragRef.current.removeEventListener('dragenter', handleDragIn);
-			dragRef.current.removeEventListener('dragleave', handleDragOut);
-			dragRef.current.removeEventListener('dragover', handleDragOver);
-			dragRef.current.removeEventListener('drop', handleDrop);
+			dragRef.current.removeEventListener('dragenter', onDragEnter);
+			dragRef.current.removeEventListener('dragleave', onDragLeave);
+			dragRef.current.removeEventListener('dragover', onDragOver);
+			dragRef.current.removeEventListener('drop', onDrop);
 		}
-	}, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
+	}, [onDragEnter, onDragLeave, onDragOver, onDrop]);
 
 	useEffect(() => {
 		initDragEvents();
@@ -76,9 +76,9 @@ const FileDragAndDrop = ({ onChange }: { onChange: (event: ChangeEvent<HTMLInput
 	}, [initDragEvents, resetDragEvents]);
 
 	return (
-		<div className={bs['dragAndDrop']}>
-			<input type="file" id="fileUpload" style={{ display: 'none' }} multiple={false} onChange={onChange} accept="image/*" ref={inputRef} />
-			<label className={isDragging ? bs['dragging'] : ''} htmlFor="fileUpload" ref={dragRef}>
+		<div className={styles['c-page-dots-fileDragAndDrop']}>
+			<input type="file" id="fileUpload" multiple={false} onChange={onChange} accept="image/*" ref={inputRef} />
+			<label className={isDragging ? styles['c-page-dots-fileDragAndDrop-dragging'] : ''} htmlFor="fileUpload" ref={dragRef}>
 				<div>⇪</div>
 			</label>
 		</div>

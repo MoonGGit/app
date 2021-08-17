@@ -29,6 +29,9 @@ def init():
 
     access_token = None
     user_id = None
+    nickname = None
+    oauth = None
+
 
     if result is not None and result.success is False:
         return jsonify(result.get_dict())
@@ -36,6 +39,8 @@ def init():
     elif result is not None and result.success is True:
         access_token = result.value.get('access_token')
         user_id = result.value.get('user_id')
+        nickname = result.value.get('nickname')
+        oauth = result.value.get('oauth')
 
     click_counts = get_click_counts()
 
@@ -45,4 +50,4 @@ def init():
         if result == 1:
             break
 
-    return jsonify(Result(True, '', {'click_counts': click_counts, 'access_token': access_token, 'visitor_name': visitor_name, 'user_id': user_id}).get_dict())
+    return jsonify(Result(True, '', {'click_counts': click_counts, 'access_token': access_token, 'visitor_name': visitor_name, 'user_id': user_id, 'nickname': nickname, 'oauth': oauth}).get_dict())

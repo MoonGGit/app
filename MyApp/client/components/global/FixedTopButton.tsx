@@ -1,15 +1,10 @@
-import cn from 'classnames';
-import bs from './scss/init.scss';
 import { RiRocketLine } from 'react-icons/ri';
+import styles from '../../scss/app.scss';
 
 const FixedTopButton = () => {
 	return (
 		// todo-check : 웹표준 태그 및 속성
-		<a
-			href="#"
-			className={cn(bs['btn'], bs['btn-secondary'], bs['btn-lg'], bs['fixedTopButton'], bs['op-4'])}
-			role="link"
-		>
+		<a href="#" className={styles['c-global-fixedTopButton']} role="link">
 			<RiRocketLine />
 		</a>
 	);

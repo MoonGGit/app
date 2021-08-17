@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import DivisionLine from '../components/DivisionLine';
-import DotsConverterMain from '../components/DotsConverter';
+import DivisionLine from '../components/util/DivisionLine';
+import DotsConverterMain from '../components/page/dots/DotsConverter';
 import styles from '../scss/app.scss';
 import Leaves1 from '../assets/images/leaves1.png';
 import Leaves2 from '../assets/images/leaves2.png';
@@ -25,7 +25,7 @@ const DotsConverter = () => {
 				</div>
 			</div>
 			<DivisionLine />
-			<h1 className={styles['p-dots-title']}>CONVERT! MAKE DOTS! </h1>
+			<span className={styles['p-dots-title']}>CONVERT! MAKE DOTS! </span>
 			<DotsConverterMain />
 			<DivisionLine />
 			<div style={{ height: '500px' }} />

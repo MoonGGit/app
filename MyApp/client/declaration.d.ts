@@ -6,5 +6,6 @@ declare module '*.jpg';
 declare interface Window {
 	Kakao: any;
 	onClickRecaptcha: any;
+	onExpiredRecaptcha: any;
 	gapi: any;
 }

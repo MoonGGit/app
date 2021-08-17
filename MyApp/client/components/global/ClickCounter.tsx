@@ -1,13 +1,13 @@
 import { useContext, useEffect, useRef } from 'react';
-import { ClickCounterContext } from '../context/ClickCounterContext';
-import bs from '../components/scss/init.scss';
+import { ClickCounterContext } from '../../context/ClickCounterContext';
+import styles from '../../scss/app.scss';
 
 const ClickCounter = ({ className }: { className: string }) => {
 	const { state } = useContext(ClickCounterContext)!;
 	const spanRef = useRef<HTMLElement>(null);
 
 	useEffect(() => {
-		spanRef?.current!.classList.toggle(bs['clickCounter']);
+		spanRef?.current!.classList.toggle(styles['c-global-clickCounter']);
 	}, [state]);
 
 	return (

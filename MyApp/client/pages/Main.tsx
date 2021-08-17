@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import PageCardList from '../components/PageCardList';
-import DivisionLine from '../components/DivisionLine';
+import PageCardList from '../components/page/main/PageCardList';
+import DivisionLine from '../components/util/DivisionLine';
 import Moon from '../assets/images/moon.png';
 import styles from '../scss/app.scss';
 

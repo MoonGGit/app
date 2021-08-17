@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { TiStar, TiStarOutline } from 'react-icons/ti';
-import bs from './scss/init.scss';
-import { clickCounterDispatch } from '../context/ClickCounterContext';
+import { clickCounterDispatch } from '../../context/ClickCounterContext';
 import axios from 'axios';
+import styles from '../../scss/app.scss';
 // import io from 'socket.io-client';
 
 const effectList = [TiStar, TiStarOutline];
@@ -38,7 +38,7 @@ const Effect = ({ x, y }: { x: number; y: number }) => {
 	}, []);
 
 	return !endOfEffect ? (
-		<span ref={effectRef} className={bs['clickEffect']}>
+		<span ref={effectRef} className={styles['c-global-clickEffect']}>
 			<RandomEffect />
 		</span>
 	) : (

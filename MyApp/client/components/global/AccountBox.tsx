@@ -1,12 +1,12 @@
 import { useEffect, useState, useContext, useRef, useCallback } from 'react';
-import bs from './scss/init.scss';
 import cn from 'classnames';
 import { BsPeopleCircle } from 'react-icons/bs';
-import { UserContext, userDispatch } from '../context/UserContext';
+import { UserContext, userDispatch } from '../../context/UserContext';
 import axios from 'axios';
-import { getCookie } from '../helper/init';
+import { getCookie } from '../../helper/init';
+import styles from '../../scss/app.scss';
 
-const AccountBox = ({ className }: { className: string }) => {
+const AccountBox = ({ className, parentVisible }: { className?: string; parentVisible: boolean }) => {
 	const [navBarToggle, setNavBarToggle] = useState(false);
 	const onClickNavBarToggle = () => setNavBarToggle(!navBarToggle);
 
@@ -21,7 +21,7 @@ const AccountBox = ({ className }: { className: string }) => {
 	const changePasswordRef = useRef<HTMLInputElement>(null);
 
 	const { state } = useContext(UserContext)!;
-	const { accessToken, userID } = state.value!;
+	const { accessToken, userID, nickname } = state.value!;
 
 	// 새 접속/로그인 or 로그아웃
 	useEffect(() => {
@@ -51,7 +51,7 @@ const AccountBox = ({ className }: { className: string }) => {
 		setYourAccountToggle(false);
 	};
 
-	// 로그인
+	// 로그인 - todo : 수정
 	const onClickLogin = useCallback(() => {
 		const userID = loginIDRef?.current!.value;
 		const password = loginPasswordRef?.current!.value;
@@ -109,7 +109,7 @@ const AccountBox = ({ className }: { className: string }) => {
 		setRegisterToggle(false);
 	}, [accessToken, userID]);
 
-	// 회원가입
+	// 회원가입 - todo : 수정
 	const onClickRegister = useCallback(() => {
 		const userID = registerIDRef?.current!.value;
 		const password = registerPasswordRef?.current!.value;
@@ -169,7 +169,7 @@ const AccountBox = ({ className }: { className: string }) => {
 			});
 	}, [accessToken, userID]);
 
-	// 비밀번호 변경
+	// 비밀번호 변경 - todo :수정
 	const onClickChange = useCallback(() => {
 		const newPassword = changePasswordRef?.current!.value;
 
@@ -203,23 +203,17 @@ const AccountBox = ({ className }: { className: string }) => {
 	}, [accessToken, userID]);
 
 	return (
-		<div className={cn(bs['position-absolute'])}>
-			<button
-				className={cn(bs['navbar-toggler'], bs['border-0'])}
-				onClick={onClickNavBarToggle}
-				style={{ cursor: 'pointer', display: 'contents' }}
-			>
+		<div className={styles['c-global-accountBox']}>
+			<button onClick={onClickNavBarToggle}>
 				<BsPeopleCircle />
 			</button>
 
 			{/** 뷰박스 **/}
 			<div
 				className={cn(
-					bs['border'],
-					bs['v-invisible'],
-					bs['position-absolute'],
-					{ [bs['loginBarToggle']]: navBarToggle },
-					bs['overflow-hidden'],
+					styles['c-global-accountBox-toggle'],
+					{ [styles['c-global-accountBox-toggle-visible']]: navBarToggle },
+					{ [styles['c-global-accountBox-toggle-parent-invisible']]: !parentVisible },
 				)}
 			>
 				{loginToggle ? (
@@ -233,9 +227,9 @@ const AccountBox = ({ className }: { className: string }) => {
 					<></>
 				)}
 
-				{!loginToggle && !registerToggle && !yourAccountToggle && accessToken && userID ? (
+				{!loginToggle && !registerToggle && !yourAccountToggle && accessToken && userID && nickname ? (
 					<div>
-						<strong>'{userID}'님 환영합니다.</strong>
+						<strong>'{nickname}'님 환영합니다.</strong>
 						<button onClick={onClickYourAccount}>Your account</button>
 						<button>Archive</button>
 						<button onClick={onClickLogOut}>Log out</button>

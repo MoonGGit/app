@@ -1,6 +1,6 @@
-import bs from '../components/scss/init.scss';
 import cn from 'classnames';
 import PageCard, { Card } from './PageCard';
+import styles from '../../../scss/app.scss';
 
 const cardList: Card[] = [
 	{
@@ -43,13 +43,14 @@ const cardList: Card[] = [
 
 const PageCardList = ({ className }: { className: string }) => {
 	return (
-		<section className={cn(bs['row'], bs['col-md'], className)}>
-			<div className={cn(bs['col-12'], bs['col-md-9'])}>
+		<section className={cn(styles['c-page-main-pageCardList'], className)}>
+			<div>
 				{cardList.map(card => (
 					<PageCard key={card.no} {...card} />
 				))}
 			</div>
-			<div className={cn(bs['col-12'], bs['col-md-3'], bs['p-4'], bs['pt-2'], bs['v-invisible'], bs['v-md-visible'], bs['infoBox'])}>
+
+			<div className={styles['c-page-main-pageCardList-sticky']}>
 				* 공사중 * <br /> * 아직 개발모드 입니다. *
 			</div>
 		</section>

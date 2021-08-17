@@ -1,0 +1,107 @@
+.c-page-dots-dotsConverter {
+	display: flex;
+	flex-direction: row;
+
+	@include lt-md {
+		flex-direction: column;
+		padding: 5px;
+		padding-top: 30px;
+	}
+
+	@include gt-md {
+		flex-direction: row;
+		padding: 12%;
+		padding-top: 80px;
+	}
+
+	.c-page-dots-dotsConverter-view-wrapper {
+		border: 1px solid black;
+		background-color: #f9f9f9;
+		width: 47vw;
+		margin-right: 3vw;
+		padding: 2vw;
+		@include lt-md {
+			width: 100%;
+			margin-bottom: 10px;
+		}
+
+		.c-page-dots-dotsConverter-view {
+			position: relative;
+			border: 1px solid black;
+			margin-bottom: 5px;
+
+			& > img {
+				position: absolute;
+				width: calc(100% - 2px);
+				height: calc(100% - 2px);
+				top: 1px;
+				left: 1px;
+				visibility: hidden;
+				pointer-events: none;
+				z-index: 1;
+				background: white;
+			}
+		}
+
+		.c-page-dots-dotsConverter-view-nav {
+			padding-top: 0px;
+			display: flex;
+			justify-content: flex-end;
+
+			& > button {
+				border: none;
+				background: none;
+				font-size: 2.5vh;
+				&:not(:last-child) {
+					margin-right: 7px;
+				}
+			}
+		}
+	}
+
+	.c-page-dots-dotsConverter-table-wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+
+		& > button {
+			background-color: #dfe6e9;
+			border: 1px solid #b2bec3;
+			border-radius: 4px;
+		}
+
+		.c-page-dots-dotsConverter-table {
+			font-size: 2vh;
+			text-align: center;
+			height: 60%;
+			margin-bottom: 4px;
+
+			@include lt-md {
+				width: 100%;
+			}
+
+			&,
+			th,
+			td {
+				border: 1px solid #b2bec3;
+				padding-top: 5px;
+				padding-bottom: 5px;
+			}
+			th,
+			tr > td:first-of-type {
+				background-color: #dfe6e9;
+			}
+			width: 30vw;
+			border-collapse: collapse;
+
+			select {
+				text-align-last: center;
+			}
+
+			input,
+			select {
+				width: 90%;
+			}
+		}
+	}
+}

@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from flask_jwt_extended import get_jwt, verify_jwt_in_request, get_jwt_identity, create_access_token, jwt_required
 from ..db.database import session_scope
-from ..db.models import User
+from ..db.models import User, User_Other
 from .helper import Result
 
 
@@ -11,7 +11,7 @@ def token_check(f):
         try:
             verify_jwt_in_request(refresh=False)
             # todo : banned 확인
-            return f(user_id=get_jwt_identity(), access_token=None, * args, **kwargs)
+            return f(user_id=get_jwt_identity(), oauth=get_jwt()['oauth'], access_token=None, * args, **kwargs)
 
         # access 토큰 없는 경우, refresh 토큰 체크 후 발급
         except:
@@ -26,8 +26,9 @@ def token_check(f):
             elif result.success is True:
                 access_token = result.value.get('access_token')
                 user_id = result.value.get('user_id')
+                oauth = result.value.get('oauth')
 
-            return f(user_id=user_id, access_token=access_token, *args, **kwargs)
+            return f(user_id=user_id, oauth=oauth, access_token=access_token, *args, **kwargs)
 
     wrapper.__name__ = f.__name__
     return wrapper
@@ -42,8 +43,13 @@ def refresh_token_check():
 
     with session_scope() as session:
         try:
-            user = session.query(User).filter(
-                User.refresh_token == refresh_token_raw).first()
+            if refresh_token_dict['oauth'] is None:
+                user = session.query(User).filter(
+                    User.refresh_token == refresh_token_raw).first()
+
+            else:
+                user = session.query(User_Other).filter(
+                    User_Other.refresh_token == refresh_token_raw).first()
 
             if(not user is None):
                 if(refresh_token_dict['refresh_token_ip'] != request.headers.getlist("X-Real-IP")[0]):
@@ -53,8 +59,9 @@ def refresh_token_check():
                     return Result(False, 'Banned user')
 
                 else:
-                    access_token = create_access_token(identity=user.id)
-                    return Result(True, 'get access_token', {'access_token': access_token, 'user_id': user.id})
+                    access_token = create_access_token(identity=user.id, additional_claims={
+                                                       'oauth': refresh_token_dict['oauth']})
+                    return Result(True, 'get access_token', {'access_token': access_token, 'user_id': user.id, 'oauth': refresh_token_dict['oauth'], 'nickname': user.nickname})
 
             else:
                 return Result(False, 'Not allowed access, Not exist refresh token in Database')

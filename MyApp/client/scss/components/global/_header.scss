@@ -1,0 +1,58 @@
+.c-global-header {
+	position: fixed;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	z-index: 999;
+
+	border-bottom: 1px solid $grey;
+	padding: 0.25rem;
+	padding-left: 1.5rem;
+
+	@include lt-md {
+	}
+
+	@include gt-md {
+		padding: 1.5rem;
+		padding-left: 7.5rem;
+		padding-right: 7.5rem;
+	}
+
+	.c-global-header-background {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background-color: rgb(253, 253, 253);
+		top: 0px;
+		left: 0px;
+		pointer-events: none;
+		z-index: -1;
+	}
+
+	.c-global-header-logo {
+		margin-right: auto;
+		font-size: 1.5rem;
+	}
+}
+
+.c-global-header-toggle-filter {
+	backdrop-filter: blur(30px);
+	li > div > button {
+		color: black !important;
+	}
+}
+
+.c-global-header-toggle-color {
+	a,
+	button {
+		transition: color 3s ease;
+		color: white !important;
+	}
+
+	@include lt-md {
+		li > div > button,
+		li > a {
+			color: black !important;
+		}
+	}
+}

@@ -1,4 +1,4 @@
-.c-util-modal-wrapper {
+.c-util-modalWrapper {
 	position: fixed;
 	z-index: 999;
 	background-color: rgba(0, 0, 0, 0.5);
@@ -11,7 +11,7 @@
 	align-items: center;
 
 	& > div {
-		.c-util-modal-header {
+		.c-util-modalWrapper-header {
 			border-top-left-radius: 10px;
 			border-top-right-radius: 10px;
 			background: white;
@@ -31,7 +31,7 @@
 				font-size: 3vh;
 			}
 		}
-		.c-util-modal-body {
+		.c-util-modalWrapper-body {
 			clear: both;
 		}
 	}

@@ -1,0 +1,95 @@
+// HeaderNavBar
+@mixin navBarToggle {
+	@keyframes navBarToggle {
+		from {
+			top: 25px;
+			opacity: 0.2;
+		}
+		to {
+			top: 42px;
+			opacity: 1;
+		}
+	}
+	background-color: rgb(255, 255, 255);
+	border: 1px solid rgb(128, 128, 128, 0.3);
+	border-radius: 4px;
+	font-weight: bold;
+	font-size: 15px !important;
+	animation-name: navBarToggle;
+	animation-duration: 1s;
+	top: 42px;
+	visibility: visible;
+
+	li {
+		height: 40px;
+		display: flex;
+		justify-content: center;
+		&:not(&:last-child) {
+			border-bottom: 1px solid rgb(128, 128, 128, 0.3);
+		}
+		& > * {
+			color: black !important;
+		}
+	}
+}
+
+.c-global-headerNavBar {
+	display: flex;
+	position: relative;
+
+	@include lt-md {
+		flex-direction: column;
+
+		& > button {
+			display: block;
+			padding: 0.25rem 0.75rem;
+			font-size: 1.25rem;
+			line-height: 1;
+			background-color: transparent;
+			border: 1px solid transparent;
+			border-radius: 0.25rem;
+		}
+	}
+
+	@include gt-md {
+		flex-direction: row;
+
+		& > button {
+			display: none;
+		}
+	}
+
+	& > ul {
+		display: flex;
+
+		@include lt-md {
+			flex-direction: column;
+			visibility: hidden;
+			text-align: center;
+			position: absolute;
+			right: 0.5rem;
+		}
+
+		& > li > a,
+		svg {
+			@include gt-md {
+				visibility: visible;
+				position: static;
+				font-size: 1.5rem;
+				margin-bottom: 0px;
+				cursor: pointer;
+			}
+		}
+
+		& > li {
+			padding: 0.5rem 1rem;
+		}
+	}
+}
+
+@include lt-md {
+	.c-global-headerNavBar-visible {
+		visibility: visible !important;
+		@include navBarToggle;
+	}
+}

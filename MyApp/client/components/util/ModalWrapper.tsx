@@ -25,15 +25,15 @@ const ModalWapper = ({
 
 	return isVisible
 		? createPortal(
-				<div className={styles['c-util-modal-wrapper']}>
+				<div className={styles['c-util-modalWrapper']}>
 					<div>
 						{handleCloseModal ? (
-							<div className={cn(styles['c-util-modal-header'], headerStyle)}>
+							<div className={cn(styles['c-util-modalWrapper-header'], headerStyle)}>
 								<span>{headerText}</span>
 								<button onClick={onClickCloseModal}>X</button>
 							</div>
 						) : null}
-						<div className={styles['c-util-modal-body']}>{children}</div>
+						<div className={styles['c-util-modalWrapper-body']}>{children}</div>
 					</div>
 				</div>,
 				document.getElementById('modal-root')!,

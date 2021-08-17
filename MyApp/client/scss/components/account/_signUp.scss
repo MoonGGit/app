@@ -45,11 +45,19 @@
 	.c-account-signUp-btn-create {
 		background-color: $green-dark;
 		position: relative;
-		top: -18px;
+
+		@include lt-md {
+			top: -18px;
+		}
+
+		@include gt-md {
+			top: -5px;
+		}
 	}
 
 	.c-account-signUp-g-recaptcha {
 		transform-origin: 0 0;
+
 		@include lt-md {
 			transform: scale(0.695);
 		}
@@ -59,7 +67,7 @@
 		}
 	}
 
-	.c-account-signUp-other {
+	.c-account-signUp-others {
 		button {
 			background-color: white;
 			color: black;

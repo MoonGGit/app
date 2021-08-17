@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../components/global/Header';
+import Footer from '../components/global/Footer';
 import Main from '../pages/Main';
 import DotsConverter from '../pages/DotsConverter';
-import FixedTopButton from '../components/FixedTopButton';
-import ClickEffect from '../components/ClickEffect';
+import FixedTopButton from '../components/global/FixedTopButton';
+import ClickEffect from '../components/global/ClickEffect';
 import AppProvider from '../context/AppProvider';
 import useInitPage from '../hooks/useInitPage';
 

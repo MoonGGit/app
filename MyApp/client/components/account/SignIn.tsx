@@ -2,17 +2,44 @@ import styles from '../../scss/app.scss';
 import { useRef, useCallback } from 'react';
 import useScript from '../../hooks/useScript';
 import { FcGoogle } from 'react-icons/fc';
+import axios from 'axios';
+import { userDispatch } from '../../context/UserContext';
 
-const SignIn = () => {
+const SignIn = ({ handleCreateAccount }: { handleCreateAccount: Function }) => {
 	const loginIDRef = useRef<HTMLInputElement>(null);
 	const loginPasswordRef = useRef<HTMLInputElement>(null);
 
 	const onClickSignIn = useCallback(() => {
-		console.log('로그인');
+		const userID = loginIDRef?.current!.value;
+		const password = loginPasswordRef?.current!.value;
+
+		axios({
+			url: '/user',
+			method: 'POST',
+			data: {
+				userID: userID,
+				password: password,
+			},
+		})
+			.then(res => {
+				const { success, message, value } = res.data;
+
+				if (success) {
+					const { access_token, user_id, nickname } = value;
+
+					userDispatch({ type: 'LOGIN', value: { accessToken: access_token, userID: user_id, nickname: nickname } });
+					alert(`Login success : ${message}`);
+				} else {
+					alert(`Login error : ${message}`);
+				}
+			})
+			.catch(err => {
+				alert(err);
+			});
 	}, []);
 
 	const onClickCreate = useCallback(() => {
-		console.log('회원가입');
+		handleCreateAccount();
 	}, []);
 
 	let googleAuth: any;
@@ -27,10 +54,10 @@ const SignIn = () => {
 
 			googleAuth.then(
 				() => {
-					console.log('init success');
+					console.log('Gauth init success');
 				},
 				() => {
-					console.log('init fail');
+					console.log('Gauth init fail');
 				},
 			);
 		});
@@ -39,9 +66,27 @@ const SignIn = () => {
 	const onClickGoogleSignIn = () => {
 		if (googleAuth) {
 			googleAuth.grantOfflineAccess().then((authResult: any) => {
-				console.log(authResult['code']);
-				//https://oauth2.googleapis.com/tokeninfo?id_token= id_token
-				// 로그인 서버로 전달
+				axios({
+					url: '/user',
+					method: 'POST',
+					data: {
+						oauth: 'GOOGLE',
+						authorizationCode: authResult['code'],
+					},
+				})
+					.then(res => {
+						const { success, message, value } = res.data;
+
+						if (success) {
+							const { access_token, user_id, nickname, oauth } = value;
+							userDispatch({ type: 'LOGIN', value: { accessToken: access_token, userID: user_id, nickname: nickname, oauth: oauth } });
+
+							alert(`Login success : ${message}`);
+						} else {
+							alert(`Login error : ${message}`);
+						}
+					})
+					.catch(err => alert(err));
 			});
 		}
 	};
@@ -66,7 +111,7 @@ const SignIn = () => {
 				</button>
 			</div>
 
-			<div className={styles['c-account-signIn-other']}>
+			<div className={styles['c-account-signIn-others']}>
 				<span>다른 계정으로 로그인</span>
 				<button onClick={onClickGoogleSignIn}>
 					<span>

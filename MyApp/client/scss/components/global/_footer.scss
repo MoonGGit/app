@@ -1,0 +1,30 @@
+.c-global-footer {
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	position: relative;
+	min-height: 75px;
+	background-color: #756f76;
+
+	.c-global-footer-clickCounter {
+		position: absolute;
+		top: 0.8rem;
+		left: 0.8rem;
+
+		@include lt-md {
+			font-size: 0.8rem;
+		}
+		@include gt-md {
+			font-size: 1rem;
+		}
+	}
+
+	.c-global-footer-description {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		font-size: 0.8rem;
+		font-weight: bold;
+		margin-bottom: 10px;
+	}
+}

@@ -37,5 +37,16 @@
 }
 
 .p-dots-title {
-	margin-left: 10vw;
+	display: block;
+	font-weight: bold;
+
+	@include lt-md {
+		margin-left: 5px;
+		font-size: 1.5rem;
+	}
+
+	@include gt-md {
+		margin-left: 12%;
+		font-size: 2rem;
+	}
 }

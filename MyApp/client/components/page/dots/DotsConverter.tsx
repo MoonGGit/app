@@ -1,43 +1,39 @@
 import { useRef, useState, useEffect, ChangeEvent, useCallback } from 'react';
 import FileDragAndDrop from './FileDragAndDrop';
-import bs from './scss/init.scss';
 import { AiOutlineDownload } from 'react-icons/ai';
 import { RiKakaoTalkFill } from 'react-icons/ri';
-import useScript from '../hooks/useScript';
-import { globalValue, dataURLtoFile } from '../helper/init';
-import ModalWrapper from './util/ModalWrapper';
-import ModalUpload from './util/ModalUpload';
+import useScript from '../../../hooks/useScript';
+import { globalValue, dataURLtoFile } from '../../../helper/init';
+import ModalWrapper from '../../util/ModalWrapper';
+import ModalUpload from '../../util/ModalUpload';
 import axios from 'axios';
+import styles from '../../../scss/app.scss';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
 
 const DotsConverter = () => {
 	const [imageFile, setImageFile] = useState<File | any>(null);
 	const [dotsImageData, setDotsImageData] = useState<string | null>(null);
+	const [isUpload, setIsUpload] = useState(false);
 
 	const imageRef = useRef<HTMLImageElement>(null);
 	const imageSizeRef = useRef<HTMLSelectElement>(null);
 	const dotsSizeRef = useRef<HTMLInputElement>(null);
 	const dotsAccurancy = useRef<HTMLInputElement>(null);
 
-	const [isVisible, setIsVisible] = useState(false);
-	const handleOpenModal = useCallback(() => {
-		setIsVisible(true);
-	}, []);
-	const handleCloseModal = useCallback(() => {
-		setIsVisible(false);
-	}, []);
+	const onClickUploadToggle = useCallback(() => {
+		setIsUpload(!isUpload);
+	}, [isUpload]);
 
-	const [isUpload, setIsUpload] = useState(false);
-	const handleOnUpload = useCallback(() => {
-		setIsUpload(true);
-	}, []);
-	const handleCloseUpload = useCallback(() => {
-		setIsUpload(false);
-	}, []);
 	const handleUploadCallBack = () => {
-		return axios({
+		return new Promise((resolve, reject) => {
+			console.log('업로드!');
+			resolve(true);
+		});
+
+		/* return axios({
 			url: '/test',
 			method: 'GET',
-		});
+		}); */
 	};
 
 	useScript('https://developers.kakao.com/sdk/js/kakao.min.js', true, () => {
@@ -100,7 +96,7 @@ const DotsConverter = () => {
 
 	// 변환 작업
 	// todo : 공백 png는 해당 블럭 에러, 화살표보임
-	const handleConvert = useCallback(async () => {
+	const onClickConvert = useCallback(async () => {
 		if (imageFile && imageSizeRef.current && dotsSizeRef.current && dotsAccurancy.current && imageRef.current) {
 			const imageSize = imageSizeRef.current.value;
 			const dotsSize = parseInt(dotsSizeRef.current.value);
@@ -188,7 +184,7 @@ const DotsConverter = () => {
 		} else alert('이미지를 선택해주세요.');
 	}, [imageFile]);
 
-	const handleDownload = useCallback(() => {
+	const onClickDownload = useCallback(() => {
 		if (dotsImageData) {
 			const link = document.createElement('a');
 			link.style.display = 'none';
@@ -203,37 +199,30 @@ const DotsConverter = () => {
 	}, [dotsImageData]);
 
 	return (
-		<section className={bs['dotsConverter-Wrapper']}>
+		<section className={styles['c-page-dots-dotsConverter']}>
 			{/* 이미지 래퍼 */}
-			<div className={bs['dotsConverterView-Wrapper']}>
+			<div className={styles['c-page-dots-dotsConverter-view-wrapper']}>
 				{/* 변환기 */}
-				<div className={bs['dotsConverter-View']}>
+				<div className={styles['c-page-dots-dotsConverter-view']}>
 					<FileDragAndDrop onChange={onChangeFiles} />
-					<img ref={imageRef} className={bs['dragAndDropImage']}></img>
+					<img ref={imageRef} />
 				</div>
+
 				{/* 버튼래퍼 */}
-				<div className={bs['dotsConverter-Nav']}>
-					<button>
+				<div className={styles['c-page-dots-dotsConverter-view-nav']}>
+					<button onClick={onClickUploadToggle}>
 						<span>
-							<div onClick={handleOpenModal}>modal test</div>
-							<ModalWrapper handleCloseModal={handleCloseModal} isVisible={isVisible}>
-								<div
-									style={{
-										width: '200px',
-										height: '200px',
-									}}
-								>
-									test
-								</div>
-							</ModalWrapper>
-							<div onClick={handleOnUpload}>업로드 모달 테스트</div>
-							{isUpload ? <ModalUpload callBack={handleUploadCallBack} handleCloseModal={handleCloseUpload} /> : null}
-						</span>
-						<span>
-							<RiKakaoTalkFill onClick={onClickKakaoShare} />
+							<AiOutlineCloudUpload />
 						</span>
 					</button>
-					<button onClick={handleDownload}>
+					{isUpload ? <ModalUpload callBack={handleUploadCallBack} handleCloseModal={onClickUploadToggle} /> : null}
+
+					<button>
+						<span onClick={onClickKakaoShare}>
+							<RiKakaoTalkFill />
+						</span>
+					</button>
+					<button onClick={onClickDownload}>
 						<span>
 							<AiOutlineDownload />
 						</span>
@@ -242,8 +231,8 @@ const DotsConverter = () => {
 			</div>
 
 			{/* 테이블 */}
-			<div className={bs['dotsConverter-settingTable-wrapper']}>
-				<table className={bs['dotsConverter-settingTable']}>
+			<div className={styles['c-page-dots-dotsConverter-table-wrapper']}>
+				<table className={styles['c-page-dots-dotsConverter-table']}>
 					{/* 옵션 */}
 					<thead>
 						<tr>
@@ -283,7 +272,7 @@ const DotsConverter = () => {
 						</tr>
 					</tbody>
 				</table>
-				<button onClick={handleConvert}>CONVERT</button>
+				<button onClick={onClickConvert}>CONVERT</button>
 			</div>
 		</section>
 	);

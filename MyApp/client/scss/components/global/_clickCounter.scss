@@ -1,0 +1,26 @@
+.c-global-clickCounter {
+	animation: c_global_clickCounter 1.5s ease-in-out both;
+}
+
+@keyframes c_global_clickCounter {
+	0%,
+	100% {
+		transform: translateY(0);
+		text-shadow: 0;
+	}
+
+	20% {
+		transform: translateY(-1em);
+		text-shadow: 0 0.125em 0 #dc6565, 0 0.25em 0 #2c4bfd, 0 -0.125em 0 #8c7577, 0 -0.25em 0 #a5a587;
+	}
+
+	40% {
+		transform: translateY(0.5em);
+		text-shadow: 0 -0.0625em 0 #dc6565, 0 -0.125em 0 #2c4bfd, 0 0.0625em 0 #8c7577, 0 0.125em 0 #a5a587;
+	}
+
+	60% {
+		transform: translateY(-0.25em);
+		text-shadow: 0 0.03125em 0 #dc6565, 0 0.0625em 0 #2c4bfd, 0 -0.03125em 0 #8c7577, 0 -0.0625em 0 #a5a587;
+	}
+}

@@ -13,7 +13,7 @@ def put_visits(ip):
             result.recent_accessed_date = datetime.now()
 
         else:
-            new_ip = Accessed_Ip(ip, 1, datetime.now(), False, null(), 0)
+            new_ip = Accessed_Ip(ip, 1, datetime.now())
             session.add(new_ip)
 
 

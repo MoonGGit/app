@@ -18,7 +18,7 @@
 	}
 
 	& > div:nth-child(1) {
-		font-size: $c-loading-fail-size / 1.5;
+		font-size: $c-loading-fail-size;
 		display: flex;
 		justify-content: center;
 		align-items: center;
