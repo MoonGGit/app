@@ -1,0 +1,73 @@
+.c-account-archive {
+	background-color: white;
+	border-top: 1px solid $grey;
+	display: flex;
+	flex-direction: column;
+
+	@include lt-md {
+		width: 85vw;
+		height: 60vh;
+	}
+	@include gt-md {
+		width: 600px;
+		height: 500px;
+	}
+
+	.c-account-archive-contents {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 5%;
+		overflow-y: auto;
+
+		& > label {
+			margin: 5px;
+			flex-basis: auto;
+
+			&:not(:nth-last-child(3) ~ label) {
+				flex-grow: 1;
+			}
+
+			& > div {
+				position: relative;
+				min-width: 130px;
+				min-height: 130px;
+				max-width: 200px;
+
+				&:hover {
+					border: solid aquamarine 2px;
+				}
+
+				img {
+					position: absolute;
+					width: 100%;
+					height: 100%;
+				}
+
+				input {
+					position: absolute;
+					bottom: 5px;
+					right: 5px;
+				}
+			}
+		}
+	}
+
+	.c-account-archive-controllbox {
+		display: flex;
+		align-items: center;
+		margin-top: auto;
+		height: 40px;
+		border-top: 1px solid $grey;
+
+		& > div:first-child {
+			margin-left: 10px;
+			margin-right: auto;
+		}
+
+		& > div:last-child {
+			button {
+				margin-right: 10px;
+			}
+		}
+	}
+}

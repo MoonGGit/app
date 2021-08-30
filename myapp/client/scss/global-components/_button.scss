@@ -1,0 +1,25 @@
+.gc-button-green {
+	position: relative;
+	background-color: $green-light;
+	border: 1px solid $grey;
+	border-radius: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+
+	&:hover {
+		border-color: cornflowerblue;
+	}
+}
+
+.gc-button-red {
+	position: relative;
+	background-color: $red-light;
+	border: 1px solid $grey;
+	border-radius: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+
+	&:hover {
+		border-color: cornflowerblue;
+	}
+}

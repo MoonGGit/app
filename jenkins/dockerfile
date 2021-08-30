@@ -1,0 +1,6 @@
+FROM jenkins/jenkins:alpine
+
+USER root
+
+RUN apk update && apk upgrade
+RUN apk add docker && apk add docker-compose

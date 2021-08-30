@@ -1,0 +1,105 @@
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url(./background.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+.background::before {
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  background: radial-gradient(ellipse at top, grey, #00000050 50%),
+    radial-gradient(ellipse at bottom, grey, black 50%);
+  opacity: 0.6;
+}
+
+header {
+  margin-top: 10vh;
+  margin-bottom: auto;
+}
+
+header > nav > ul {
+  list-style: none;
+  padding: 0px;
+  display: flex;
+}
+
+header > nav > ul > li:not(:last-child) {
+  margin-right: 40px;
+}
+
+header > nav > ul > li > a {
+  font-size: 1.5rem;
+  color: white;
+  font-weight: bolder;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 767px) {
+  header > nav > ul > li:not(:last-child) {
+    margin-right: 15px;
+  }
+  header > nav > ul > li > a {
+    font-size: 1rem;
+  }
+}
+
+main {
+  margin-bottom: 40vh;
+  color: white;
+}
+
+main > span {
+  display: block;
+}
+
+main > span:first-child {
+  font-size: 3rem;
+}
+main > span:nth-child(2) {
+  font-size: 1.7rem;
+  margin-bottom: 30px;
+}
+
+main > span:nth-child(2) ~ span {
+  font-size: 1.3rem;
+}
+
+@media screen and (max-width: 767px) {
+  main {
+    margin-bottom: 25vh;
+  }
+  main > span:first-child {
+    font-size: 2rem;
+  }
+  main > span:nth-child(2) {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+  }
+  main > span:nth-child(2) ~ span {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,21 @@
+// Variables
+
+$grid-breakpoints: (
+	xs: 0,
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px,
+	xxl: 1400px,
+) !default;
+
+$grey: #cecece;
+$grey-dark: #2f2f2f;
+$blue-black: #29313e;
+$black: #222222;
+
+$green-light: rgb(167, 228, 151);
+$green-dark: #6fb65d;
+
+$red-light: rgb(255, 129, 129);
+$red-dark: rgb(179, 86, 86);
