@@ -7,5 +7,6 @@ declare interface Window {
 	Kakao: any;
 	onClickRecaptcha: any;
 	onExpiredRecaptcha: any;
+	grecaptcha: any;
 	gapi: any;
 }

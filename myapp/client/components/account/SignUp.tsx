@@ -61,9 +61,13 @@ const SignUp = ({ handleReturnLogin }: { handleReturnLogin: Function }) => {
 							handleReturnLogin();
 						} else {
 							alert(`Register error : ${message}`);
+							window.grecaptcha.reset();
 						}
 					})
-					.catch(err => alert(err));
+					.catch(err => {
+						alert(err);
+						window.grecaptcha.reset();
+					});
 			});
 		}
 	};

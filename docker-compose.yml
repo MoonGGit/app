@@ -21,7 +21,7 @@ services:
     container_name: myapp
     restart: always
     build:
-      dockerfile: dockerfile
+      dockerfile: ./server/dockerfile
       context: ./myapp
     env_file:
       - .env

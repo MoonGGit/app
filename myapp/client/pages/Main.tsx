@@ -1,13 +1,17 @@
 import { useEffect } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 import PageCardList from '../components/page/main/PageCardList';
 import DivisionLine from '../components/util/DivisionLine';
 import Moon from '../assets/images/moon.png';
 import styles from '../scss/app.scss';
 
-export default function Main() {
+export default function Main({ handleSetCurrentRoute }: { handleSetCurrentRoute: Function }) {
+	const { path } = useRouteMatch();
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
-	});
+		handleSetCurrentRoute(path);
+	}, []);
 
 	return (
 		<section>

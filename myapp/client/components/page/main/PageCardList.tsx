@@ -8,20 +8,16 @@ const cardList: Card[] = [
 		link: './dots-converter',
 		imagePath: 'pixel.png',
 		title: "Image to Dots(Pixels)'s block Converter",
-		description1: '이미지를 다트형식으로 변환시켜 드립니다.',
-		description2: (
-			<div>
-				<br /> <br /> <span>* 업데이트 중 *</span>
-			</div>
-		),
+		description1: '이미지를 도트형식으로 변환시켜 드립니다.',
+		description2: '',
 	},
 	{
 		no: 2,
-		link: '#',
+		link: './chat',
 		imagePath: 'comming_soon.png',
-		title: '',
-		description1: '',
-		description2: '',
+		title: 'chat',
+		description1: 'chat 1',
+		description2: 'chat 2',
 	},
 	{
 		no: 3,

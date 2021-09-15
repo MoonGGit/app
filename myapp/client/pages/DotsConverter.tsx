@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 import DivisionLine from '../components/util/DivisionLine';
 import DotsConverterMain from '../components/page/dots/DotsConverter';
 import styles from '../scss/app.scss';
@@ -8,11 +9,13 @@ import Leaves2 from '../assets/images/leaves2.png';
 import Leaves3 from '../assets/images/leaves3.png';
 import Leaves4 from '../assets/images/leaves4.png';
 
-const DotsConverter = () => {
+const DotsConverter = ({ handleSetCurrentRoute }: { handleSetCurrentRoute: Function }) => {
 	const backgroundRef = useRef<HTMLDivElement>(null);
+	const { path } = useRouteMatch();
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
+		handleSetCurrentRoute(path);
 	}, []);
 
 	return (

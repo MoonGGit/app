@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, request, jsonify
 from .. import TEMPLATE_FORDER_PATH, STATIC_FORDER_PATH, LOCAL_SAVE_DATA_PATH
 from ..services.jwt_auth import token_check
 import string
@@ -7,16 +7,7 @@ import os
 from ..services.local_db_path import save_path
 from ..services.helper import Result
 
-dots_converter = Blueprint('dots_converter', __name__, url_prefix='/dots-converter/',
-                           static_folder=STATIC_FORDER_PATH,
-                           template_folder=TEMPLATE_FORDER_PATH)
-
-
-@dots_converter.route('/', defaults={'path': ''})
-@dots_converter.route('/<path:path>')
-def dots_converter_index(path):
-    return render_template('index.html')
-
+dots_converter = Blueprint('dots_converter', __name__, url_prefix='/dots-converter')
 
 @dots_converter.route('/archive', methods=['POST'])
 @token_check

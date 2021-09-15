@@ -56,8 +56,10 @@ module.exports = {
 	},
 
 	output: {
-		path: path.join(__dirname, '/dist/static/'),
+		path: path.join(__dirname, '/dist/static'),
 		filename: '[name].[contenthash].js',
+		publicPath: '/static/',
+		// relative path to absPath
 	},
 
 	devServer: {
@@ -68,7 +70,7 @@ module.exports = {
 		publicPath: '/',
 		disableHostCheck: true,
 		writeToDisk: true,
-		contentBase: path.join(__dirname, '/dist/'),
+		contentBase: path.join(__dirname, '/dist'),
 		// output의 path보다 아래에 있어서 설정
 	},
 
@@ -77,6 +79,8 @@ module.exports = {
 			React: 'react',
 		}),
 		new HtmlWebpackPlugin({
+			title: 'MyApp',
+			favicon: './assets/images/favicon-32x32.png',
 			template: './public/index.html',
 			filename: '../index.html',
 			// output의 path 기준으로 파일이 생성됨

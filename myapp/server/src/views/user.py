@@ -11,7 +11,7 @@ from ..services.user_other import create_user_other, login_user_other, set_user_
 from ..services.local_db_path import delete_path, get_paths, get_path
 
 # todo: escape 적용
-user = Blueprint('user', __name__, url_prefix='/user/',
+user = Blueprint('user', __name__, url_prefix='/user',
                  static_folder=STATIC_FORDER_PATH,
                  template_folder=TEMPLATE_FORDER_PATH,
                  )

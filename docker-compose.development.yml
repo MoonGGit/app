@@ -16,12 +16,13 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - server_myapp
+      - server_myapp_socket
 
   server_myapp:
     container_name: myapp
     restart: always
     build:
-      dockerfile: dockerfile.development
+      dockerfile: ./server/dockerfile.development
       context: ./myapp
     env_file:
       - .env
@@ -68,5 +69,18 @@ services:
     cap_add:
       - SYS_NICE
 
+  server_myapp_socket:
+    restart: always
+    build:
+      dockerfile: dockerfile.development
+      context: ./myapp/server_socket
+    deploy:
+      mode: replicated
+      replicas: 2
+      # update_config:
+    # healthcheck:
+    volumes:
+      - ./myapp/server_socket:/app/server_socket
+      - /app/server_socket/.env
 volumes:
   myapp_socket:

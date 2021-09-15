@@ -1,13 +1,10 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_jwt_extended import JWTManager
 from datetime import timedelta
 import os
 from .db.database import engine
 from .db.models import Base
-""" from flask_socketio import SocketIO, emit
-from engineio.payload import Payload """
 # from .services.accessed_ip import put_click_counts
-
 
 # PATH
 TEMPLATE_FORDER_PATH = '/app/client/dist/'
@@ -50,6 +47,11 @@ def create_app():
         app.jinja_env.cache = {}
         # session.permanent = True
 
+    @app.route('/', defaults={'path': ''})
+    @app.route('/<path:path>')
+    def index(path):
+        return render_template('index.html')
+
     ##############################
     #          blueprint         #
     ##############################
@@ -66,34 +68,3 @@ def create_app():
     app.register_blueprint(user)
 
     return app
-
-
-""" 
-소켓서버로 
-
-def create_socket_io():
-    Payload.max_decode_packets = 100
-    socket_io = SocketIO()
-
-    @socket_io.on('connect', namespace='/room_click')
-    def connect():
-        for k, v in request.headers.items():
-            print(k, '////', v)
-        print('connected', flush=True)
-
-    @socket_io.on('disconnect', namespace='/room_click')
-    def disconnect():
-        for k, v in request.headers.items():
-            print(k, '////', v)
-        # todo : 누가 끊겼는지 확인
-        print('disconnected', flush=True)
-
-    @socket_io.on('click', namespace='/room_click')
-    def click(visitorNameJsonData):
-        # 일단 /click 땜빵
-        ip = request.headers.getlist("X-Real-IP")[0]
-        put_click_counts(ip)
-        ###
-        emit('someone_clicked', visitorNameJsonData, broadcast=True)
-
-    return socket_io """

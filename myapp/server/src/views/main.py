@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template,  request
+from flask import Blueprint, request
 from flask.json import jsonify
 from ..services.accessed_ip import get_click_counts, put_visits
 from .. import TEMPLATE_FORDER_PATH, STATIC_FORDER_PATH
@@ -7,16 +7,7 @@ from ..db.redis import redis
 from ..services.helper import Result
 from ..services.jwt_auth import refresh_token_check
 
-main = Blueprint('main', __name__, url_prefix='/',
-                 static_folder=STATIC_FORDER_PATH,
-                 template_folder=TEMPLATE_FORDER_PATH)
-
-
-@main.route('/', defaults={'path': ''})
-@main.route('/<path:path>')
-def index(path):
-    return render_template('index.html')
-
+main = Blueprint('main', __name__, url_prefix='/')
 
 @main.route('/init', methods=['POST'])
 def init():
