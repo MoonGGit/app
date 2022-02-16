@@ -4,6 +4,9 @@ import styles from '../scss/app.scss';
 import axios from 'axios';
 import MainLogo from '../assets/images/logo_white_back.png';
 import ChatRoomCard from '.././components/page/chat/ChatRoomCard';
+import cn from 'classnames';
+import { AiOutlineReload } from 'react-icons/ai';
+
 // import io from 'socket.io-client';
 
 // data
@@ -13,6 +16,7 @@ interface Message {
 	nickname: string;
 	ip: string;
 	content: string;
+	date: string;
 	visible: boolean | 'banned' | 'deleted';
 }
 
@@ -22,6 +26,7 @@ const room1Chat: Message[] = [
 		nickname: 'nick1',
 		ip: '1.1.1.1',
 		content: '안녕하세요1',
+		date: '9.16 11:11',
 		visible: true,
 	},
 	{
@@ -29,6 +34,8 @@ const room1Chat: Message[] = [
 		nickname: 'nick2',
 		ip: '1.1.1.2',
 		content: '안녕하세요2',
+		date: '9.16 11:11',
+
 		visible: true,
 	},
 	{
@@ -36,6 +43,7 @@ const room1Chat: Message[] = [
 		nickname: 'nick1',
 		ip: '1.1.1.1',
 		content: '',
+		date: '9.16 11:11',
 		visible: 'deleted',
 	},
 	{
@@ -43,6 +51,7 @@ const room1Chat: Message[] = [
 		nickname: 'nick2',
 		ip: '1.1.1.2',
 		content: '',
+		date: '9.16 11:11',
 		visible: 'banned',
 	},
 	{
@@ -50,6 +59,7 @@ const room1Chat: Message[] = [
 		nickname: 'nick3',
 		ip: '1.1.1.3',
 		content: '안녕하세요3',
+		date: '9.16 11:11',
 		visible: true,
 	},
 ];
@@ -111,6 +121,8 @@ const Chat = ({ handleSetCurrentRoute }: { handleSetCurrentRoute: Function }) =>
 	const [selectedRoomNo, setSelectedRoomNo] = useState<number | null>(null);
 	const [messages, setMessages] = useState<Message[]>([]);
 	const history = useHistory();
+	const [searchRoom, setSearchRoom] = useState<string>('');
+	const inputSearchRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
 		handleSetCurrentRoute(path);
@@ -141,7 +153,9 @@ const Chat = ({ handleSetCurrentRoute }: { handleSetCurrentRoute: Function }) =>
 		setSelectedRoomNo(null);
 	};
 
-	const onChangeSearchRoom = () => {};
+	const onChangeSearchRoom = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchRoom(event.currentTarget.value);
+	};
 
 	const onClickTest = () => {
 		axios({
@@ -213,30 +227,50 @@ const Chat = ({ handleSetCurrentRoute }: { handleSetCurrentRoute: Function }) =>
 
 			<main>
 				<header>
-					<Link to={`${url}`} onClick={onClickSearchRoom}>
-						방 찾기
-					</Link>
-					<button onClick={onClickSearchRoom}>새로고침</button>
+					{selectedRoomNo ? (
+						<>
+							<Link to={`${url}`} onClick={onClickSearchRoom}>
+								방 찾기
+							</Link>
+							<div>navMenu</div>
+						</>
+					) : (
+						<>
+							<input type="text" placeholder=" 방 제목 검색" ref={inputSearchRef} onChange={onChangeSearchRoom} />
+							{/* <button onClick={onClickSearchRoom} className={styles['gc-button-grey']}> */}
+							<button onClick={onClickTest} className={styles['gc-button-grey']}>
+								<AiOutlineReload />
+							</button>
+						</>
+					)}
 				</header>
 				<Switch>
 					<Route exact path={path}>
 						<div className={styles['p-chat-roomList-container']}>
-							{roomsInfo.map(roomInfo => {
-								return <ChatRoomCard key={roomInfo.no} handleEnterRoom={handleEnterRoom} roomInfo={roomInfo} />;
-							})}
+							{searchRoom
+								? roomsInfo.filter(roomInfo => roomInfo.title.includes(searchRoom)).map(roomInfo => {
+									return <ChatRoomCard key={roomInfo.no} handleEnterRoom={handleEnterRoom} roomInfo={roomInfo} />;})
+								: roomsInfo.map(roomInfo => {
+										return <ChatRoomCard key={roomInfo.no} handleEnterRoom={handleEnterRoom} roomInfo={roomInfo} />;
+								  })}
 						</div>
 					</Route>
 					<Route path={`${path}/:room`}>
-						<div className={styles['p-chat-room-container']}>
+						<div className={styles['p-chat-room-message-container']}>
 							{messages.map((message, i) => {
+								const myMessage = i == 3;
+
 								return (
-									<div key={i} className={styles['p-chat-room-message-wrapper']}>
+									<div key={i} className={cn(styles['p-chat-room-message-wrapper'], { [styles['p-chat-room-message-self']]: myMessage })}>
 										<div>
 											<span>{message.nickname}</span>
 											<span>ip:{message.ip}</span>
 										</div>
 										<br />
-										<div>{message.visible == true ? message.content : message.visible == 'banned' ? 'banned' : 'deleted'}</div>
+										<div>
+											<span>{message.visible == true ? message.content : message.visible == 'banned' ? 'banned' : 'deleted'}</span>
+											<span>{message.date}</span>
+										</div>
 									</div>
 								);
 							})}

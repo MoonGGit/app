@@ -3,8 +3,8 @@
 	background-color: $green-light;
 	border: 1px solid $grey;
 	border-radius: 5px;
-	padding-left: 15px;
-	padding-right: 15px;
+	padding-left: 5px;
+	padding-right: 5px;
 
 	&:hover {
 		border-color: cornflowerblue;
@@ -16,8 +16,21 @@
 	background-color: $red-light;
 	border: 1px solid $grey;
 	border-radius: 5px;
-	padding-left: 15px;
-	padding-right: 15px;
+	padding-left: 5px;
+	padding-right: 5px;
+
+	&:hover {
+		border-color: cornflowerblue;
+	}
+}
+
+.gc-button-grey {
+	position: relative;
+	background-color: $grey;
+	border: 1px solid $grey;
+	border-radius: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
 
 	&:hover {
 		border-color: cornflowerblue;
